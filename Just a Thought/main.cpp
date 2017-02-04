@@ -39,11 +39,12 @@ int main()
 
 	if (initialize())
 	{
+		//Initialization succeeded, so launch the game
 
 	}
 	else
 	{
-		std::cout << "The program failed to initialize, therminating";
+		std::cout << "The program failed to initialize, terminating";
 		shutdown();
 		return -1;
 	}

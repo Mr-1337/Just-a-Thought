@@ -12,10 +12,14 @@ class Sprite
 public:
 	Sprite (SDL_Renderer* renderer);
 	~Sprite();
-	void loadImg(std::string path);
-	void draw();
-	void draw(SDL_Rect* clip,int alpha = 255);
-	void setPosition(int x, int y);
+	virtual void load(std::string path);
+	void draw(int alpha = 255);
+	virtual void draw(SDL_Rect* clip, int alpha = 255);
+	void setX(int x);
+	void setY(int y);
+	void setWidthHeight(int w, int h);
+	void getWidthHeight(int* w, int* h);
+	SDL_Rect* getRect();
 	
 private:
 

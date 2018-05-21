@@ -1,33 +1,24 @@
 #include "Player.h"
 
-Player::Player(SDL_Renderer* renderer) : m_renderer(renderer)
+Player::Player(SDL_Renderer* renderer, std::vector <std::vector <char> > &mapIn) 
+	: m_renderer(renderer), map(mapIn)
 {
 	if (m_renderer != nullptr)
 	{
 		m_sprite = new Sprite(m_renderer);
-		m_sprite->loadImg("Assets/Graphics/guy.png");
+		m_sprite->load("Assets/Graphics/guy.png");
 		std::cout << "Player Created!" << std::endl;
-		SDL_RWops* mapData = SDL_RWFromFile("Assets/Graphics/level1.jatmap", "r+b");
-		std::cout << std::endl;
-		if (mapData != NULL)
-		{
-			for (int j = 0;j < 768;j++)
-			{
-				for (int i = 0;i < 1024;i++)
-				{
-					SDL_RWread(mapData, &map[j][i], sizeof(Uint8), 1);
-				}
-			}
-		}
 		x = 0;
-		y = 0;
+		y = 100;
+		m_sprite->setWidthHeight(40, 40);
+		fast = false;
+		yVel = 0;
 	}
 	else
 	{
 		std::cout << "Renderer Undefined for player!" << std::endl;
 	}
 }
-
 
 Player::~Player()
 {
@@ -39,47 +30,46 @@ Player::~Player()
 void Player::update()
 {
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
-	static float speed;
-	speed += 0.4;
+	static int speed;
+	if (fast)
+		speed = 6;
+	else
+		speed = 2;
 	if (keys[SDL_SCANCODE_D])
 	{
-		x+=5;
+		x+=speed;
 	}
 	if (keys[SDL_SCANCODE_A])
 	{
-		x-=5;
+		x-= speed;
 	}
 	if (keys[SDL_SCANCODE_W])
 	{
-		for (int i = 0; i < 16; i++)
-		{
-			y--;
-			if (y >= 0 && y <= 768)
-			{
-				while (map[y][x + 64] == 0)
-				{
-					y++;
-					//speed = 0;
-				}
-			}
-		}
+		yVel =- 4;
 	}
-	for (int i = 0; i < speed; i++)
+	yVel += g;
+	y += floor(yVel);	
+
+	while (map[(y+40) / 20][(x+20)/20] != 0)
 	{
-		y++;
-		if (y >= 0 && y <= 768)
+		switch (map[(y + 40) / 20][(x + 20) / 20])
 		{
-			while (map[y + 128][x + 64] == 0 || map[y + 127][x + 64] == 0)
-			{
-				y--;
-				speed = 0;
-			}
+		case 1:
+			y--;
+			fast = false;
+			break;
+		case 2:
+			y--;
+			fast = true;
+			break;
 		}
+		yVel = 0;
 	}
 }
 
 void Player::draw()
 {
-	m_sprite->setPosition(x, y);
+	m_sprite->setX(x);
+	m_sprite->setY(y);
 	m_sprite->draw();
 }

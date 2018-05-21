@@ -1,42 +1,40 @@
 #include "StateMachine.h"
 
-StateMachine::StateMachine()
+StateMachine::StateMachine(SDL_Renderer* renderer):
+	m_renderer(renderer)
 {
 	
 }
 
 StateMachine::~StateMachine()
 {
+	delete currentState;
 }
 
-void StateMachine::setState(int state)
+void StateMachine::setState(GameState::states newState)
 {
-	if(state != GameState::STATE_NONE)
+	if(newState != GameState::STATE_NONE && newState != GameState::STATE_QUIT)
 	{ 
 		delete currentState;
-		switch (state)
+		switch (newState)
 		{
-		case GameState::STATE_QUIT:
-			break;
 		case GameState::STATE_INTRO:
-			currentState = new Intro();
+			currentState = new Intro(m_renderer);
 			break;
 		case GameState::STATE_TITLE:
-			currentState = new Title();
+			currentState = new Title(m_renderer);
 			break;
 		case GameState::STATE_LEVEL1:
-			currentState = new Level1();
+			currentState = new Level1(m_renderer);
 			break;
 		case GameState::STATE_EDITOR:
-			currentState = new Editor();
+			currentState = new Editor(m_renderer);
 			break;
 		}
-		currentState->setRenderer(m_renderer);
-		currentState->init();
 	}
 }
 
-int StateMachine::getNextState()
+GameState::states StateMachine::getNextState()
 {
 	return currentState->getNextState();
 }
@@ -49,9 +47,4 @@ void StateMachine::draw()
 void StateMachine::update()
 {
 	currentState->update();
-}
-
-void StateMachine::setRenderer(SDL_Renderer* renderer)
-{
-	m_renderer = renderer;
 }

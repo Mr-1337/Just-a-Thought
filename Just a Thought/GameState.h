@@ -10,13 +10,10 @@
 class GameState
 {
 public:
-	GameState();
+	GameState(SDL_Renderer* renderer);
 	virtual ~GameState();
 	virtual void update() = 0;
 	virtual void draw() = 0;
-	virtual void init() = 0;
-	void setRenderer(SDL_Renderer* renderer);
-	int getNextState();
 	enum states
 	{
 		STATE_NONE,
@@ -26,8 +23,10 @@ public:
 		STATE_EDITOR,
 		STATE_LEVEL1
 	};
+
+	states getNextState();
 protected:
 	SDL_Renderer* m_renderer;
-	int nextState;
+	states nextState;
 };
 

@@ -3,7 +3,6 @@
 #include "Sprite.h"
 #include "GameSettings.h"
 #include <random>
-#include <ctime>
 
 //Intro Screen
 
@@ -11,11 +10,10 @@ class Intro :
 	public GameState
 {
 public:
-	Intro();
+	Intro(SDL_Renderer* renderer);
 	~Intro();
 	void update();
 	void draw();
-	void init();
 private:
 	Sprite* splash;
 	Mix_Chunk* noise;

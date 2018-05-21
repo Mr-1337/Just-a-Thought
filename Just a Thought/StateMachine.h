@@ -11,13 +11,13 @@
 class StateMachine
 {
 public:
-	StateMachine();
+	StateMachine(SDL_Renderer* renderer);
 	~StateMachine();
-	void setState(int state);
-	int getNextState();
+	void setState(GameState::states newState);
+	GameState::states getNextState();
 	void update();
 	void draw();
-	void setRenderer(SDL_Renderer* renderer);
+
 private:
 	GameState* currentState;
 	SDL_Renderer* m_renderer;

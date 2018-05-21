@@ -2,9 +2,16 @@
 #include "GameEngine.h"
 
 Sprite::Sprite(SDL_Renderer* renderer)
+	:m_renderer(renderer)
 {
-	std::cout << "Sprite created!" << std::endl;
-	m_renderer = renderer;
+	if (renderer != NULL)
+	{
+		std::cout << "Sprite created!" << std::endl;
+	}
+	else
+	{
+		std::cout << "Renderer undefined for Sprite" << std::endl;
+	}
 }
 
 Sprite::~Sprite()
@@ -13,25 +20,34 @@ Sprite::~Sprite()
 	SDL_DestroyTexture(m_texture);
 }
 
-void Sprite::setPosition(int x, int y)
+void Sprite::setX(int x)
 {
 	m_dstRect.x = x;
+}
+
+void Sprite::setY(int y)
+{
 	m_dstRect.y = y;
 }
 
-void Sprite::draw()
+void Sprite::setWidthHeight(int w, int h)
 {
-	if (m_renderer != NULL && m_texture != NULL)
-	{
-		SDL_RenderCopy(m_renderer, m_texture, NULL, &m_dstRect);
-	}
-	else
-	{
-		std::cout << "Renderer or texture is missing" << std::endl;
-	}
+	m_dstRect.w = w;
+	m_dstRect.h = h;
 }
 
-void Sprite::draw(SDL_Rect* clip,int alpha)
+void Sprite::getWidthHeight(int* w, int* h)
+{
+	*w = m_dstRect.w;
+	*h = m_dstRect.h;
+}
+
+SDL_Rect* Sprite::getRect()
+{
+	return &m_dstRect;
+}
+
+void Sprite::draw(int alpha)
 {
 	if (alpha < 0)
 		alpha = 0;
@@ -41,15 +57,35 @@ void Sprite::draw(SDL_Rect* clip,int alpha)
 	if (m_renderer != NULL && m_texture != NULL)
 	{
 		SDL_SetTextureAlphaMod(m_texture, alpha);
+		SDL_RenderCopy(m_renderer, m_texture, NULL, &m_dstRect);
+	}
+	else
+	{
+		std::cout << "Renderer or texture are NULL" << std::endl;
+	}
+}
+
+void Sprite::draw(SDL_Rect* clip, int alpha)
+{
+	if (alpha < 0)
+		alpha = 0;
+	if (alpha > 255)
+		alpha = 255;
+
+	if (m_renderer != NULL && m_texture != NULL && clip != NULL)
+	{
+		SDL_SetTextureAlphaMod(m_texture, alpha);
+		m_dstRect.w = clip->w;
+		m_dstRect.h = clip->h;
 		SDL_RenderCopy(m_renderer, m_texture, clip, &m_dstRect);
 	}
 	else
 	{
-		std::cout << "Renderer or texture is missing" << std::endl;
+		std::cout << "Renderer, bounding rect, or texture are NULL" << std::endl;
 	}
 }
 
-void Sprite::loadImg(std::string path)
+void Sprite::load(std::string path)
 {
 	SDL_Surface* tempSurface;
 	tempSurface = IMG_Load(path.c_str());

@@ -24,27 +24,37 @@ GameEngine::GameEngine():m_quit(false)
 		else
 		{
 			SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+			stateMachine = new StateMachine(m_renderer);
 			std::cout << "Engine construction successful!" << std::endl;
-			stateMachine.setRenderer(m_renderer);
-			stateMachine.setState(GameState::STATE_EDITOR);
+			stateMachine->setState(GameState::STATE_TITLE);
 		}
 	}
 }
 
 GameEngine::~GameEngine()
 {
+	delete stateMachine;
 	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
 }
 
 void GameEngine::appLoop()
 {
+	//Loop the program until the state machine requests to quit or the user closes the program
+	//Update and draw based on current game state
 	while (!m_quit)
 	{
-		stateMachine.setState(stateMachine.getNextState());
-		eventHandler();
-		stateMachine.update();
-		stateMachine.draw();
+		if (stateMachine->getNextState() != GameState::STATE_QUIT)
+		{
+			stateMachine->setState(stateMachine->getNextState());
+			eventHandler();
+			stateMachine->update();
+			stateMachine->draw();
+		}
+		else
+		{
+			m_quit = true;
+		}
 	}
 }
 

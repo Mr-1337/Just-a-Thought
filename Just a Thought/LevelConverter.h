@@ -7,18 +7,16 @@
 class LevelConverter
 {
 public:
-	LevelConverter(int w, int h);
+	LevelConverter(std::vector<std::vector<char> > &inputData);
 	~LevelConverter();
 	void openFile(std::string filename);
-	void formatBytes();
+	void loadBytes();
 	void outputBytes();
 	void printBytes();
 
 private:
 	std::ifstream inputFile;
 	std::ofstream outputFile;
-	std::vector<char> data;
-	int width;
-	int height;
+	std::vector <std::vector <char> > &data;
 };
 

@@ -12,14 +12,15 @@ I know that this probably won't be the magnum opus that I'd really like it to be
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <SDL_net.h>
 
 #include "GameEngine.h"
-//Main cpp file. This is the program that gets called by the OS. It all starts here.
 
 //Loads SDL + accompanying libraries
-bool initialize();
-//Unloads SDL libraries
+bool initializeLibs();
+//Unloads SDL libraries + accompanying libraries
 void shutdown();
+void audio();
 
 /*
 ── █───▄▀█▀▀█▀▄▄───▐█──────▄▀█▀▀█▀▄▄
@@ -38,12 +39,22 @@ int main(int argc, char* args[])
 {
 	std::cout << "Welcome to the console output for Just a Thought!" << std::endl << std::endl;
 	
-	if (initialize())
+	if (initializeLibs())
 	{
+		//audio();
+		IPaddress ip;
+		SDLNet_ResolveHost(&ip, "127.0.0.1", 25565);
+		TCPsocket sock = SDLNet_TCP_Open(&ip);
+		char* data = "bingbong";
+		char data2[8];
+		SDLNet_TCP_Send(sock, data, 8);
+		SDLNet_TCP_Recv(sock, data2, 8);
+		std::cout << data2[4];
 		std::cout << "Initialization succeeded! Starting the game." << std::endl;
-		GameSettings::setDimensions(1024, 768);
-		GameEngine JaT;
-		JaT.appLoop();
+		GameSettings::setDimensions(800, 600);
+		
+		//GameEngine JaT;
+		//JaT.appLoop();
 	}
 	else
 	{
@@ -59,32 +70,80 @@ int main(int argc, char* args[])
 	return 0;
 }
 
+void audio()
+{
+	SDL_AudioSpec want, have;
+	SDL_AudioDeviceID mic,speakers;
+
+	int const size = 10000;
+	float data[size];
+
+	SDL_memset(&want, 0, sizeof(want)); /* or SDL_zero(want) */
+	want.freq = 44100;
+	want.format = AUDIO_F32;
+	want.channels = 2;
+	want.samples = 4096;
+	want.callback = NULL; /* you wrote this function elsewhere -- see SDL_AudioSpec for details */
+	const char* sp = SDL_GetAudioDeviceName(0, 0); 
+	const char* mc = SDL_GetAudioDeviceName(1, 1);
+	std::cout << mc << std::endl << sp << std::endl;
+	speakers = SDL_OpenAudioDevice(sp, 0, &want, &have, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+	mic = SDL_OpenAudioDevice(mc, 1, &want, &have, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+	SDL_PauseAudioDevice(speakers, 0); /* start audio playing. */
+	SDL_PauseAudioDevice(mic, 0);
+
+	while (true)
+	{
+		SDL_DequeueAudio(mic, data, size * sizeof(data[0]));
+		SDL_QueueAudio(speakers, data, size * sizeof(data[0])); /* let the audio callback play some sound for 5 seconds. */
+		SDL_Delay(5);
+		SDL_ClearQueuedAudio(speakers);
+	}
+
+}
+
 
 //Load through each component and terminate if any fail
-bool initialize()
+bool initializeLibs()
 {
 	bool success = true;
-	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		std::cout << "SDL2 failed to launch! Error: " << SDL_GetError() << std::endl;
 		success = false;
 	}
 	else
 	{
+		SDL_version version;
+		SDL_GetVersion(&version);
+		std::cout << (int)version.major << "." << (int)version.minor << "." << (int)version.patch << std::endl;
 		int imgFlags = IMG_INIT_PNG;
-		if (!(IMG_Init(imgFlags)&imgFlags))
+		if (!((IMG_Init(imgFlags))&imgFlags))
 		{
 			std::cout << "SDL Image failed to launch! Error: " << IMG_GetError() << std::endl;
 			success = false;
 		}
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) != 0)
+		int sndFlags = MIX_INIT_MP3 | MIX_INIT_OGG;
+		if ((Mix_Init(sndFlags)&sndFlags) != sndFlags)
 		{
 			std::cout << "SDL Mixer failed to launch! Error: " << Mix_GetError() << std::endl;
-			success = false;
+		}
+		else
+		{
+			if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) != 0)
+			{
+				std::cout << "SDL Mixer failed to open audio mixer! Error: " << Mix_GetError() << std::endl;
+				success = false;
+			}
 		}
 		if (TTF_Init() != 0)
 		{
 			std::cout << "SDL TTF failed to launch! Error: " << TTF_GetError() << std::endl;
+			success = false;
+		}
+		if (SDLNet_Init() == -1)
+		{
+			std::cout << "SDL NET failed to launch! Error: " << SDLNet_GetError() << std::endl;
 			success = false;
 		}
 	}
@@ -93,7 +152,9 @@ bool initialize()
 
 void shutdown()
 {
+	SDLNet_Quit();
 	TTF_Quit();
+	Mix_CloseAudio();
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();

@@ -1,9 +1,11 @@
 #include "Intro.h"
 
-Intro::Intro():alpha(255),timer(0)
+Intro::Intro(SDL_Renderer* renderer):
+	alpha(255),timer(0),GameState(renderer)
 {
 	std::cout << "Created Intro" << std::endl;
-	srand(static_cast<int>(time(0)));
+	splash = new Sprite(m_renderer);
+	loadMedia();
 }
 
 Intro::~Intro()
@@ -11,12 +13,6 @@ Intro::~Intro()
 	std::cout << "Destroyed Intro" << std::endl;
 	Mix_FreeChunk(noise);
 	delete splash;
-}
-
-void Intro::init()
-{
-	splash = new Sprite(m_renderer);
-	loadMedia();
 }
 
 void Intro::loadMedia()
@@ -27,22 +23,27 @@ void Intro::loadMedia()
 
 	if (noise != NULL)
 		Mix_PlayChannel(0, noise, -1);
-
+	
 	GameSettings::getDimensions(&w, &h);
-	int choice = rand() % 3;
+	srand(SDL_GetTicks());
+	int choice = rand()%3;
 	switch (choice)
 	{
 	case 0:
-		splash->loadImg("Assets/Graphics/the chef.png");
-		splash->setPosition(-300, 0);
+		splash->load("Assets/Graphics/the chef.png");
+		splash->setX(-300);
 		break;
 	case 1:
-		splash->loadImg("Assets/Graphics/Shrek.png");
-		splash->setPosition(-400, 0);
+		splash->load("Assets/Graphics/Shrek.png");
+		splash->setX(-400);
 		break;
 	case 2:
-		splash->loadImg("Assets/Graphics/Elmo.png");
-		splash->setPosition(0, 0);
+		splash->load("Assets/Graphics/Elmo.png");
+		splash->setX(0);
+		break;
+	case 3:
+		splash->load("Assets/Graphics/Globglogabgalab.png");
+		splash->setX(-200);
 		break;
 	}
 
@@ -55,7 +56,7 @@ void Intro::loadMedia()
 	{
 		color = rand() % 255;
 		rect.x = rand() % w;
-		rect.y = rand() % h;
+		rect.y = (rand() % h);
 		SDL_SetRenderDrawColor(m_renderer, color, color, color, 255);
 		SDL_RenderFillRect(m_renderer, &rect);
 	}
@@ -70,11 +71,11 @@ void Intro::update()
 		alpha = 0;
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, (255.0 - alpha)/100);
 
-	splash->draw(NULL,(255-alpha)/5);
+	splash->draw((255-alpha)/5);
 	SDL_RenderFillRect(m_renderer, &overlay);
 
 	timer++;
-	if (timer > 660)
+	if (timer > 600)
 	{
 		nextState = GameState::STATE_TITLE;
 	}

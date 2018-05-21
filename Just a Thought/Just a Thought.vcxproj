@@ -19,7 +19,54 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ButtonBase.cpp" />
+    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameSettings.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Intro.cpp" />
+    <ClCompile Include="Level1.cpp" />
+    <ClCompile Include="LevelConverter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuButton.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="UIContainer.cpp" />
+    <ClCompile Include="UIEditorBar.cpp" />
+    <ClCompile Include="UIEditorBarButton.cpp" />
+    <ClCompile Include="UIElement.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ButtonBase.h" />
+    <ClInclude Include="Editor.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="Intro.h" />
+    <ClInclude Include="Level1.h" />
+    <ClInclude Include="LevelConverter.h" />
+    <ClInclude Include="MenuButton.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Title.h" />
+    <ClInclude Include="UIContainer.h" />
+    <ClInclude Include="UIEditorBar.h" />
+    <ClInclude Include="UIEditorBarButton.h" />
+    <ClInclude Include="UIElement.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Just a Thought.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="jat.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}</ProjectGuid>
@@ -82,6 +129,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -98,7 +147,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2test.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,6 +180,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2test.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

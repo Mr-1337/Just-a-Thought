@@ -25,6 +25,6 @@ private:
 	SDL_Window* m_window;
 	bool m_quit;
 	void eventHandler();
-	StateMachine stateMachine;
+	StateMachine* stateMachine;
 	
 };

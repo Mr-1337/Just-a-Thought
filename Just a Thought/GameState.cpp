@@ -1,6 +1,6 @@
 #include "GameState.h"
 
-GameState::GameState():nextState(0)
+GameState::GameState(SDL_Renderer* renderer):nextState(STATE_NONE),m_renderer(renderer)
 {
 	
 }
@@ -9,12 +9,7 @@ GameState::~GameState()
 {
 }
 
-void GameState::setRenderer(SDL_Renderer* renderer)
-{
-	m_renderer = renderer;
-}
-
-int GameState::getNextState()
+GameState::states GameState::getNextState()
 {
 	return nextState;
 }

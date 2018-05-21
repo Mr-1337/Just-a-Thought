@@ -1,19 +1,22 @@
 #pragma once
 #include "Sprite.h"
 #include <vector>
-#include <bitset>
+
 class Player
 {
 public:
-	Player(SDL_Renderer* renderer);
+	Player(SDL_Renderer* renderer, std::vector <std::vector <char> > &mapIn);
 	~Player();
 	void update();
 	void draw();
 private:
 	Sprite* m_sprite;
 	SDL_Renderer* m_renderer;
+	std::vector <std::vector <char> > &map;
+	bool fast;
+	const float g = 0.1635f;
+	float yVel;
 	int x;
 	int y;
-	Uint8 map[768][1024];
 };
 

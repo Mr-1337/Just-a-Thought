@@ -4,6 +4,7 @@
 #include "LevelConverter.h"
 #include "Text.h"
 #include "Timer.h"
+#include <SDL_net.h>
 
 class Level1 :
 	public GameState
@@ -16,6 +17,7 @@ public:
 
 private:
 	Player* m_player;
+	Player* m_player2;
 	std::vector< std::vector <char> > tiles;
 	SDL_Rect rect;
 	const int size = 20;
@@ -23,5 +25,8 @@ private:
 	Text Counter;
 	SDL_Color fontColor;
 	Timer fpsTimer;
+	IPaddress ip;
+	UDPsocket client;
+	UDPpacket packet;
 };
 

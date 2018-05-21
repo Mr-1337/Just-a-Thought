@@ -27,6 +27,11 @@ Player::~Player()
 	delete m_sprite;
 }
 
+void Player::setX(int X)
+{
+	x = X;
+}
+
 void Player::update()
 {
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -49,7 +54,10 @@ void Player::update()
 	}
 	yVel += g;
 	y += floor(yVel);	
-
+	if (x < 0)
+		x = 1;
+	if (x > 600)
+		x = 600;
 	while (map[(y+40) / 20][(x+20)/20] != 0)
 	{
 		switch (map[(y + 40) / 20][(x + 20) / 20])

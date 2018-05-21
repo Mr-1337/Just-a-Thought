@@ -9,6 +9,7 @@ public:
 	~Player();
 	void update();
 	void draw();
+	void setX(int X);
 private:
 	Sprite* m_sprite;
 	SDL_Renderer* m_renderer;

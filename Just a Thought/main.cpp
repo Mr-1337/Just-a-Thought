@@ -48,15 +48,26 @@ int main(int argc, char* args[])
 		if (choice == 1)
 		{
 			IPaddress ip;
-			std::cout << SDLNet_ResolveHost(&ip, "76.118.201.122", 25570) << std::endl;
-			TCPsocket sock = SDLNet_TCP_Open(&ip);
+			std::cout << SDLNet_ResolveHost(&ip, "73.186.46.157", 25570) << std::endl;
+			UDPsocket sock = SDLNet_UDP_Open(0);
+			UDPpacket packet;
+			packet.address = ip;
 			if (sock == NULL)
 				std::cout << SDLNet_GetError() << std::endl;
 			else
 			{
-				char* data = "";
-				std::cin >> data;
-				SDLNet_TCP_Send(sock, data, sizeof(data));
+				while (true)
+				{
+					std::string data;
+					std::cin >> data;
+					packet.maxlen = 300;
+					packet.len = sizeof(data.c_str());
+					packet.data = (Uint8*)data.c_str();
+					if (SDLNet_UDP_Send(sock, -1, &packet) == 0)
+					{
+						std::cout << SDLNet_GetError() << std::endl;
+					}
+				}
 			}
 		}
 		else if (choice == 2)
@@ -64,19 +75,26 @@ int main(int argc, char* args[])
 			IPaddress ip;
 			std::cout << SDLNet_ResolveHost(&ip, NULL, 25570) << std::endl;
 			TCPsocket sock = SDLNet_TCP_Open(&ip);
+			TCPsocket rec;
 			if (sock == NULL)
 				std::cout << SDLNet_GetError() << std::endl;
 			else
 			{
-				while (SDLNet_TCP_Accept(sock) == NULL)
+				while (true)
 				{
-
+					rec = SDLNet_TCP_Accept(sock);
+					if (rec != NULL)
+						break;
 				}
 				std::cout << "WE RECEIVED A CONNECTION!" << std::endl;
 				char data[30];
-				while (SDLNet_TCP_Recv(sock, data, 30) <= 0)
+				while (true)
 				{
-
+					int res = SDLNet_TCP_Recv(rec, data, 30);
+					if (res < 0)
+						std::cout << SDLNet_GetError() << std::endl;
+					if (res > 0)
+						break;
 				}
 				for (char i : data)
 				{
@@ -93,8 +111,8 @@ int main(int argc, char* args[])
 		std::cout << "Initialization succeeded! Starting the game." << std::endl;
 		GameSettings::setDimensions(800, 600);
 		
-		//GameEngine JaT;
-		//JaT.appLoop();
+		GameEngine JaT;
+		JaT.appLoop();
 	}
 	else
 	{

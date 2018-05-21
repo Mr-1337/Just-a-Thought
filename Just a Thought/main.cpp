@@ -53,18 +53,38 @@ int main(int argc, char* args[])
 			if (sock == NULL)
 				std::cout << SDLNet_GetError() << std::endl;
 			else
-				SDLNet_TCP_Send(sock, "DATA", 3);
+			{
+				char* data = "";
+				std::cin >> data;
+				SDLNet_TCP_Send(sock, data, sizeof(data));
+			}
 		}
 		else if (choice == 2)
 		{
 			IPaddress ip;
 			std::cout << SDLNet_ResolveHost(&ip, NULL, 25570) << std::endl;
 			TCPsocket sock = SDLNet_TCP_Open(&ip);
-			while (SDLNet_TCP_Accept(sock) == NULL)
+			if (sock == NULL)
+				std::cout << SDLNet_GetError() << std::endl;
+			else
 			{
+				while (SDLNet_TCP_Accept(sock) == NULL)
+				{
 
+				}
+				std::cout << "WE RECEIVED A CONNECTION!" << std::endl;
+				char data[30];
+				while (SDLNet_TCP_Recv(sock, data, 30) <= 0)
+				{
+
+				}
+				for (char i : data)
+				{
+					std::cout << i;
+				}
+				std::cout << std::endl;
 			}
-			std::cout << "WE RECEIVED PACKETS OH YES!" << std::endl;
+			
 		}
 		else
 		{

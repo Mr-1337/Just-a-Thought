@@ -42,14 +42,34 @@ int main(int argc, char* args[])
 	if (initializeLibs())
 	{
 		//audio();
-		IPaddress ip;
-		SDLNet_ResolveHost(&ip, "127.0.0.1", 25565);
-		TCPsocket sock = SDLNet_TCP_Open(&ip);
-		char* data = "bingbong";
-		char data2[8];
-		SDLNet_TCP_Send(sock, data, 8);
-		SDLNet_TCP_Recv(sock, data2, 8);
-		std::cout << data2[4];
+		int choice;	
+		std::cout << "1: Client" << std::endl << "2: Host" << std::endl;
+		std::cin >> choice;
+		if (choice == 1)
+		{
+			IPaddress ip;
+			std::cout << SDLNet_ResolveHost(&ip, "76.118.201.122", 25570) << std::endl;
+			TCPsocket sock = SDLNet_TCP_Open(&ip);
+			if (sock == NULL)
+				std::cout << SDLNet_GetError() << std::endl;
+			else
+				SDLNet_TCP_Send(sock, "DATA", 3);
+		}
+		else if (choice == 2)
+		{
+			IPaddress ip;
+			std::cout << SDLNet_ResolveHost(&ip, NULL, 25570) << std::endl;
+			TCPsocket sock = SDLNet_TCP_Open(&ip);
+			while (SDLNet_TCP_Accept(sock) == NULL)
+			{
+
+			}
+			std::cout << "WE RECEIVED PACKETS OH YES!" << std::endl;
+		}
+		else
+		{
+			std::cout << "WRONG WRONG WRONG WRONG WRONG YOU BROKE IT" << std::endl;
+		}
 		std::cout << "Initialization succeeded! Starting the game." << std::endl;
 		GameSettings::setDimensions(800, 600);
 		
@@ -66,6 +86,7 @@ int main(int argc, char* args[])
 
 	shutdown();
 	std::cout << "Program closed, hit enter to terminate";
+	std::cin.get();
 	std::cin.get();
 	return 0;
 }

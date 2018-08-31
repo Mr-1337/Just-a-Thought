@@ -29,3 +29,9 @@ int Timer::getTicks()
 Timer::~Timer()
 {
 }
+
+void Timer::restart()
+{
+	stop();
+	start();
+}

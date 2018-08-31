@@ -7,9 +7,9 @@ class MenuButton :
 public:
 	MenuButton(SDL_Renderer* renderer, std::string path);
 	~MenuButton();
-	void draw();
-	void update();
+	void draw() override;
+	void update() override;
 private:
-	void onHover();
+	void onHover() override;
 };
 

@@ -26,7 +26,7 @@ void Intro::loadMedia()
 	
 	GameSettings::getDimensions(&w, &h);
 	srand(SDL_GetTicks());
-	int choice = rand()%3;
+	int choice = rand()%4;
 	switch (choice)
 	{
 	case 0:
@@ -67,17 +67,17 @@ void Intro::loadMedia()
 void Intro::update()
 {
 	alpha -= 0.5;
-	if (alpha <= 0)
+	if (alpha < 0)
 		alpha = 0;
-	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, (255.0 - alpha)/100);
-
-	splash->draw((255-alpha)/5);
+	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, (255 - alpha)/100);
+	splash->setAlpha(255 - alpha);
+	splash->draw();
 	SDL_RenderFillRect(m_renderer, &overlay);
 
 	timer++;
 	if (timer > 600)
 	{
-		nextState = GameState::STATE_TITLE;
+		request.state = STATE_TITLE;
 	}
 
 }
@@ -90,7 +90,7 @@ void Intro::draw()
 		color = rand() % 255;
 		rect.x = rand() % w;
 		rect.y = rand() % h;
-		SDL_SetRenderDrawColor(m_renderer, color, color, color, static_cast<int>(alpha));
+		SDL_SetRenderDrawColor(m_renderer, color, color, color, alpha);
 		SDL_RenderFillRect(m_renderer, &rect);
 	}
 	SDL_RenderPresent(m_renderer);

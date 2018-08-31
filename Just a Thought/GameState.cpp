@@ -1,15 +1,24 @@
 #include "GameState.h"
 
-GameState::GameState(SDL_Renderer* renderer):nextState(STATE_NONE),m_renderer(renderer)
+GameState::GameState(SDL_Renderer* renderer)
+	: m_renderer(renderer)
 {
-	
+	if (m_renderer == NULL)
+		std::cout << "Renderer is INVALID\n";
 }
 
 GameState::~GameState()
 {
 }
 
-GameState::states GameState::getNextState()
+void GameState::revealed()
 {
-	return nextState;
+	request.state = STATE_NONE;
+	request.popCurrent = true;
+	request.popPrev = false;
+}
+
+GameState::StateRequest GameState::getStateRequest()
+{
+	return request;
 }

@@ -1,6 +1,9 @@
 #pragma once
 #include <SDL.h>
 #include "Sprite.h"
+
+//Represents a singular UI element
+
 class UIElement
 {
 public:
@@ -10,8 +13,8 @@ public:
 	virtual void draw() = 0;
 	virtual void update() = 0;
 
-	void setX(int X);
-	void setY(int Y);
+	virtual void setX(int X);
+	virtual void setY(int Y);
 
 protected:
 	SDL_Renderer* m_renderer;

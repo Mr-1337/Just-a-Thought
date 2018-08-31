@@ -13,6 +13,8 @@ protected:
 	
 	virtual void onHover() = 0;
 	bool mouseInBounds();
+	int mX;
+	int mY;
 
 	bool mDown;
 	

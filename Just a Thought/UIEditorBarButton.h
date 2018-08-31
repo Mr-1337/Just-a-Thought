@@ -8,10 +8,10 @@ public:
 	UIEditorBarButton(SDL_Renderer* renderer, std::string path);
 	~UIEditorBarButton();
 
-	void draw();
-	void update();
+	void draw() override;
+	void update() override;
 private:
-	void onHover();
+	void onHover() override;
 	int alpha;
 };
 

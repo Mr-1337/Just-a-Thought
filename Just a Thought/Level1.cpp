@@ -1,8 +1,9 @@
 #include "Level1.h"
 
 Level1::Level1(SDL_Renderer* renderer)
-	: GameState(renderer), tiles(30, std::vector <char> (40)), Counter(renderer, "Halo 3")
+	: GameState(renderer), tiles(30, std::vector <char> (40)), Counter(renderer, "Halo 3"), frame(0)
 {
+	escape = false;
 	for (int i = 0; i < 30; i++)
 	{
 		tiles[i].assign(40, 0);
@@ -11,39 +12,49 @@ Level1::Level1(SDL_Renderer* renderer)
 	converter.openFile("Assets/Graphics/level1.jatmap");
 	converter.loadBytes();
 	m_player = new Player(m_renderer, tiles);
-	m_player2 = new Player(m_renderer, tiles);
+	enemy = new Enemy(renderer, *m_player);
 	fontColor.r = 0;
 	fontColor.g = 63;
 	fontColor.b = 255;
 	fontColor.a = 255;
 	Counter.load("Assets/Font/Halo3.ttf", 48, fontColor);
 	fpsTimer.start();
+	fps = " ";
 
-	std::cout << SDLNet_ResolveHost(&ip, NULL, 25570) << std::endl;
-	client = SDLNet_UDP_Open(25570);
 }
 
 Level1::~Level1()
 {
-
+	//delete enemy;
+	//delete m_player;
+	std::cout << "Destroyed Level 1" << std::endl;
 }
 
 void Level1::update()
 {
-	static int frame = 0;
 	frame++;	
 	m_player->update();
-	m_player2->update();
-	if (fpsTimer.getTicks() == 0)
-		SDL_Delay(1);
-	fps = std::to_string ( 1000 * frame / fpsTimer.getTicks() );
-	Counter.updateText(fps, fontColor);
 
-	int recv = SDLNet_UDP_Recv(client, &packet);
-	if (recv > 0)
+	if (fpsTimer.getTicks() != 0)
 	{
-		
-		m_player2->setX(*packet.data);
+		fps = std::to_string(1000 * frame / fpsTimer.getTicks());
+	}
+	Counter.updateText(fps, fontColor);
+	const Uint8* keys = SDL_GetKeyboardState(NULL);
+
+	if (keys[SDL_SCANCODE_ESCAPE])
+	{
+		if (!escape)
+		{
+			request.state = STATE_PAUSE;
+			request.popCurrent = false;	
+			escape = true;
+		}
+	}
+	else
+	{
+		escape = false;
+		request.state = STATE_NONE;
 	}
 }
 
@@ -52,7 +63,7 @@ void Level1::draw()
 	SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
 	SDL_RenderClear(m_renderer);
 	m_player->draw();
-	m_player2->draw();
+	enemy->draw();
 	rect.w = size;
 	rect.h = size;
 	for (int i = 0;i < 30;i++)

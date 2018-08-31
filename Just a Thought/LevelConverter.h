@@ -9,7 +9,7 @@ class LevelConverter
 public:
 	LevelConverter(std::vector<std::vector<char> > &inputData);
 	~LevelConverter();
-	void openFile(std::string filename);
+	void openFile(const std::string& filename);
 	void loadBytes();
 	void outputBytes();
 	void printBytes();

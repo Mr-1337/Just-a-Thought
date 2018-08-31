@@ -1,17 +1,17 @@
 #include "ButtonBase.h"
 
 ButtonBase::ButtonBase(SDL_Renderer* renderer)
-	:UIElement(renderer)
+	:UIElement(renderer), mDown(false)
 {
-	mDown = false;
 }
 
 bool ButtonBase::click()
 {
-	if (SDL_BUTTON_LMASK & SDL_GetMouseState(NULL, NULL))
+	if (SDL_BUTTON_LMASK & SDL_GetMouseState(&mX,&mY))
 	{
 		if (!mDown && mouseInBounds())
 		{
+			mDown = true;
 			return true;
 		}
 		else
@@ -30,8 +30,6 @@ bool ButtonBase::click()
 bool ButtonBase::mouseInBounds()
 {
 	SDL_Rect* sRect = m_sprite->getRect();
-	static int mX, mY;
-	SDL_GetMouseState(&mX, &mY);
 	if ((mX >= sRect->x) && (mX <= sRect->x + sRect->w) && (mY >= sRect->y) && (mY <= sRect->y + sRect->h))
 	{
 		return true;

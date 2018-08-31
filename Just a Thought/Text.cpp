@@ -1,7 +1,5 @@
 #include "Text.h"
 
-
-
 Text::Text(SDL_Renderer* renderer, std::string message)
 	:Sprite(renderer), m_string(message)
 {
@@ -11,7 +9,8 @@ Text::Text(SDL_Renderer* renderer, std::string message)
 
 Text::~Text()
 {
-	TTF_CloseFont(font);
+	std::cout << "Text Destroyed" << std::endl;
+	//TTF_CloseFont(font);
 }
 
 void Text::load(std::string path, int pntSize, SDL_Color fontColor)

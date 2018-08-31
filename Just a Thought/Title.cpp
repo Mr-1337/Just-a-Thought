@@ -7,7 +7,7 @@ Title::Title(SDL_Renderer* renderer):
 
 	menu = new Sprite(m_renderer);
 
-	menu->load("Assets/Graphics/tempmenu.png");
+	menu->load("Assets/Graphics/Shrek.png");
 
 	int w, h;
 	GameSettings::getDimensions(&w, &h);
@@ -15,12 +15,15 @@ Title::Title(SDL_Renderer* renderer):
 	m_play = new MenuButton(m_renderer, "Assets/Graphics/play.png");
 	m_quit = new MenuButton(m_renderer, "Assets/Graphics/quit.png");
 	m_options = new MenuButton(m_renderer, "Assets/Graphics/options.png");
+	m_editor = new MenuButton(m_renderer, "Assets/Graphics/editor.png");
 	m_play->setX(375);
 	m_play->setY(400);
 	m_options->setX(375);
 	m_options->setY(460);
+	m_editor->setX(375);
+	m_editor->setY(520);
 	m_quit->setX(375);
-	m_quit->setY(520);
+	m_quit->setY(580);
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 }
 
@@ -42,17 +45,23 @@ void Title::update()
 	m_play->update();
 	m_options->update();
 	m_quit->update();
+	m_editor->update();
 	if (m_play->click())
 	{
-		nextState = GameState::STATE_LEVEL1;
+		request.state = GameState::STATE_LEVEL1;
 	}
 	if (m_options->click())
 	{
-		nextState = GameState::STATE_EDITOR;
+		request.state = GameState::STATE_OPTIONS;
+		request.popCurrent = false;
+	}
+	if (m_editor->click())
+	{
+		request.state = GameState::STATE_EDITOR;
 	}
 	if (m_quit->click())
 	{
-		nextState = GameState::STATE_QUIT;
+		request.state = GameState::STATE_QUIT;
 	}
 }
 
@@ -62,6 +71,7 @@ void Title::draw()
 	menu->draw();
 	m_play->draw();
 	m_options->draw();
+	m_editor->draw();
 	m_quit->draw();
 	SDL_RenderPresent(m_renderer);
 }

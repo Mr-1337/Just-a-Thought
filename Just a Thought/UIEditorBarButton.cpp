@@ -11,6 +11,7 @@ UIEditorBarButton::UIEditorBarButton(SDL_Renderer* renderer, std::string path)
 
 UIEditorBarButton::~UIEditorBarButton()
 {
+	delete m_sprite;
 }
 
 

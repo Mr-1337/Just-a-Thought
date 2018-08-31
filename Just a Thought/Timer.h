@@ -7,6 +7,7 @@ public:
 	void start();
 	void pause();
 	void stop();
+	void restart();
 	int getTicks();
 	~Timer();
 private:

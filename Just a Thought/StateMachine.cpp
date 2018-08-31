@@ -8,43 +8,67 @@ StateMachine::StateMachine(SDL_Renderer* renderer):
 
 StateMachine::~StateMachine()
 {
-	delete currentState;
-}
-
-void StateMachine::setState(GameState::states newState)
-{
-	if(newState != GameState::STATE_NONE && newState != GameState::STATE_QUIT)
-	{ 
-		delete currentState;
-		switch (newState)
-		{
-		case GameState::STATE_INTRO:
-			currentState = new Intro(m_renderer);
-			break;
-		case GameState::STATE_TITLE:
-			currentState = new Title(m_renderer);
-			break;
-		case GameState::STATE_LEVEL1:
-			currentState = new Level1(m_renderer);
-			break;
-		case GameState::STATE_EDITOR:
-			currentState = new Editor(m_renderer);
-			break;
-		}
+	while (!stateStack.empty())
+	{
+		stateStack.pop();
 	}
 }
 
-GameState::states StateMachine::getNextState()
+void StateMachine::setState(GameState::StateRequest newState)
 {
-	return currentState->getNextState();
+	if (newState.popCurrent && newState.state != GameState::STATE_NONE)
+	{
+		stateStack.pop();
+		if (newState.popPrev)
+		{
+			std::cout << "Popping previous state: \n";
+			if (!stateStack.empty())
+			{
+				stateStack.pop();
+			}
+		}
+		else
+		{
+			if (!stateStack.empty())
+				stateStack.top()->revealed();
+		}
+
+	}
+	switch (newState.state)
+	{
+	case GameState::STATE_INTRO:
+		stateStack.push(std::make_unique<Intro>(m_renderer));
+		break;
+	case GameState::STATE_TITLE:
+		stateStack.push(std::make_unique<Title>(m_renderer));
+		break;
+	case GameState::STATE_EDITOR:
+		stateStack.push(std::make_unique<Editor>(m_renderer));
+		break;
+	case GameState::STATE_OPTIONS:
+		stateStack.push(std::make_unique<OptionScreen>(m_renderer));
+		break;
+	case GameState::STATE_PAUSE:
+		stateStack.push(std::make_unique<PauseMenu>(m_renderer));
+		break;
+	case GameState::STATE_LEVEL1:
+		stateStack.push(std::make_unique<Level1>(m_renderer));
+		break;
+	}
+}
+
+GameState::StateRequest StateMachine::getStateRequest()
+{
+	return stateStack.top()->getStateRequest();
 }
 
 void StateMachine::draw()
 {
-	currentState->draw();
+	stateStack.top()->draw();
 }
 
 void StateMachine::update()
 {
-	currentState->update();
+	//td::cout << stateStack.size() << std::endl;
+	stateStack.top()->update();
 }

@@ -41,7 +41,7 @@ Editor::~Editor()
 		LevelConverter saver(tile);
 		saver.outputBytes();
 	}
-
+	
 	delete editorBar;
 }
 

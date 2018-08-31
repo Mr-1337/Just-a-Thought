@@ -1,8 +1,8 @@
 #include "LevelConverter.h"
 
 
-LevelConverter::LevelConverter(std::vector<std::vector<char> > &inputData):
-	data(inputData)
+LevelConverter::LevelConverter(std::vector<std::vector<char> > &inputData)
+	: data(inputData)
 {
 	
 }
@@ -14,7 +14,7 @@ LevelConverter::~LevelConverter()
 	outputFile.close();
 }
 
-void LevelConverter::openFile(std::string filename)
+void LevelConverter::openFile(const std::string& filename)
 {
 	inputFile.open(filename);
 }

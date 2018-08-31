@@ -18,9 +18,8 @@ I know that this probably won't be the magnum opus that I'd really like it to be
 
 //Loads SDL + accompanying libraries
 bool initializeLibs();
-//Unloads SDL libraries + accompanying libraries
+//Unloads SDL + accompanying libraries
 void shutdown();
-void audio();
 
 /*
 ── █───▄▀█▀▀█▀▄▄───▐█──────▄▀█▀▀█▀▄▄
@@ -41,124 +40,32 @@ int main(int argc, char* args[])
 	
 	if (initializeLibs())
 	{
-		//audio();
-		int choice;	
-		std::cout << "1: Client" << std::endl << "2: Host" << std::endl;
-		std::cin >> choice;
-		if (choice == 1)
-		{
-			IPaddress ip;
-			std::cout << SDLNet_ResolveHost(&ip, "73.186.46.157", 25570) << std::endl;
-			UDPsocket sock = SDLNet_UDP_Open(0);
-			UDPpacket packet;
-			packet.address = ip;
-			if (sock == NULL)
-				std::cout << SDLNet_GetError() << std::endl;
-			else
-			{
-				while (true)
-				{
-					std::string data;
-					std::cin >> data;
-					packet.maxlen = 300;
-					packet.len = sizeof(data.c_str());
-					packet.data = (Uint8*)data.c_str();
-					if (SDLNet_UDP_Send(sock, -1, &packet) == 0)
-					{
-						std::cout << SDLNet_GetError() << std::endl;
-					}
-				}
-			}
-		}
-		else if (choice == 2)
-		{
-			IPaddress ip;
-			std::cout << SDLNet_ResolveHost(&ip, NULL, 25570) << std::endl;
-			TCPsocket sock = SDLNet_TCP_Open(&ip);
-			TCPsocket rec;
-			if (sock == NULL)
-				std::cout << SDLNet_GetError() << std::endl;
-			else
-			{
-				while (true)
-				{
-					rec = SDLNet_TCP_Accept(sock);
-					if (rec != NULL)
-						break;
-				}
-				std::cout << "WE RECEIVED A CONNECTION!" << std::endl;
-				char data[30];
-				while (true)
-				{
-					int res = SDLNet_TCP_Recv(rec, data, 30);
-					if (res < 0)
-						std::cout << SDLNet_GetError() << std::endl;
-					if (res > 0)
-						break;
-				}
-				for (char i : data)
-				{
-					std::cout << i;
-				}
-				std::cout << std::endl;
-			}
-			
-		}
-		else
-		{
-			std::cout << "WRONG WRONG WRONG WRONG WRONG YOU BROKE IT" << std::endl;
-		}
 		std::cout << "Initialization succeeded! Starting the game." << std::endl;
+		SDL_Rect bounds;
+		if (SDL_GetDisplayBounds(0, &bounds) != 0)
+		{
+			std::cout << SDL_GetError();
+			std::cin.get();
+			return -1;
+		}
+		std::cout << "Monitor Dimensions: " << bounds.w << " x " << bounds.h << std::endl;
 		GameSettings::setDimensions(800, 600);
-		
-		GameEngine JaT;
+		GameEngine JaT("Just a Thought");
 		JaT.appLoop();
 	}
 	else
 	{
 		std::cout << SDL_GetError() << std::endl;
-		std::cout << "The program failed to initialize, terminating. You should do me a solid and report this!" << std::endl;
+		std::cout << "The program failed to initialize its libraries. You should do me a solid and report this!" << std::endl;
 		shutdown();
+		std::cin.get();
 		return -1;
 	}
 
 	shutdown();
 	std::cout << "Program closed, hit enter to terminate";
 	std::cin.get();
-	std::cin.get();
 	return 0;
-}
-
-void audio()
-{
-	SDL_AudioSpec want, have;
-	SDL_AudioDeviceID mic,speakers;
-
-	int const size = 10000;
-	float data[size];
-
-	SDL_memset(&want, 0, sizeof(want)); /* or SDL_zero(want) */
-	want.freq = 44100;
-	want.format = AUDIO_F32;
-	want.channels = 2;
-	want.samples = 4096;
-	want.callback = NULL; /* you wrote this function elsewhere -- see SDL_AudioSpec for details */
-	const char* sp = SDL_GetAudioDeviceName(0, 0); 
-	const char* mc = SDL_GetAudioDeviceName(1, 1);
-	std::cout << mc << std::endl << sp << std::endl;
-	speakers = SDL_OpenAudioDevice(sp, 0, &want, &have, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
-	mic = SDL_OpenAudioDevice(mc, 1, &want, &have, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
-	SDL_PauseAudioDevice(speakers, 0); /* start audio playing. */
-	SDL_PauseAudioDevice(mic, 0);
-
-	while (true)
-	{
-		SDL_DequeueAudio(mic, data, size * sizeof(data[0]));
-		SDL_QueueAudio(speakers, data, size * sizeof(data[0])); /* let the audio callback play some sound for 5 seconds. */
-		SDL_Delay(5);
-		SDL_ClearQueuedAudio(speakers);
-	}
-
 }
 
 
@@ -175,7 +82,7 @@ bool initializeLibs()
 	{
 		SDL_version version;
 		SDL_GetVersion(&version);
-		std::cout << (int)version.major << "." << (int)version.minor << "." << (int)version.patch << std::endl;
+		std::cout << "The program has linked against SDL version " << (int)version.major << "." << (int)version.minor << "." << (int)version.patch << std::endl;
 		int imgFlags = IMG_INIT_PNG;
 		if (!((IMG_Init(imgFlags))&imgFlags))
 		{
@@ -186,6 +93,7 @@ bool initializeLibs()
 		if ((Mix_Init(sndFlags)&sndFlags) != sndFlags)
 		{
 			std::cout << "SDL Mixer failed to launch! Error: " << Mix_GetError() << std::endl;
+			success = false;
 		}
 		else
 		{

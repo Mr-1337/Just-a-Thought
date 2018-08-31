@@ -28,7 +28,7 @@ private:
 	int tileX, tileY;
 	const int size = 20;
 	std::vector <Player*> players;
-	const SDL_Color color = { 255,0,0,255 };
+	const SDL_Color color = { 25,0,99,255 };
 	Text text;
 	SDL_Rect rect;
 	UIEditorBar::Tools currentTool;

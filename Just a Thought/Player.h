@@ -1,5 +1,5 @@
 #pragma once
-#include "Sprite.h"
+#include "AnimatedSprite.h"
 #include <vector>
 
 class Player
@@ -10,12 +10,15 @@ public:
 	void update();
 	void draw();
 	void setX(int X);
+	inline int getX() const { return x; };
+	inline int getY() const { return y; };
 private:
-	Sprite* m_sprite;
+	AnimatedSprite* m_sprite;
 	SDL_Renderer* m_renderer;
+	SDL_RendererFlip flip;
 	std::vector <std::vector <char> > &map;
 	bool fast;
-	const float g = 0.1635f;
+	const float g;
 	float yVel;
 	int x;
 	int y;

@@ -85,7 +85,7 @@ void UIEditorBar::update()
 {
 	m_drawRect.x = x;
 	m_drawRect.y = y;
-
+	
 	for (iter = children.begin(); iter < children.end(); iter++)
 	{
 		(*iter)->update();

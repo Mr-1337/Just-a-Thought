@@ -18,8 +18,8 @@ public:
 		TOOL_PLAYER
 	};
 
-	void update();
-	void draw();
+	void update() override;
+	void draw() override;
 	void SetX(int X);
 	void SetY(int Y);
 	Tools getSelected();

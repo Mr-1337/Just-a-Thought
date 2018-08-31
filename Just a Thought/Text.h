@@ -8,7 +8,7 @@ public:
 	Text(SDL_Renderer* renderer, std::string message);
 	~Text();
 	void load(std::string path, int pntSize, SDL_Color fontColor);
-	void draw();
+	void draw() override;
 	void updateText(std::string text, SDL_Color fontColor);
 private:
 	TTF_Font* font;

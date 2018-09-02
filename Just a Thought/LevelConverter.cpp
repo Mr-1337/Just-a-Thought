@@ -1,30 +1,32 @@
 #include "LevelConverter.h"
 
 
-LevelConverter::LevelConverter(int w, int h)
+LevelConverter::LevelConverter(std::vector<std::vector<char> > &inputData)
+	: data(inputData)
 {
-	width = w;
-	height = h;
-	data.resize(width*height);
+	
 }
 
 LevelConverter::~LevelConverter()
 {
+	std::cout << "RIP CONVERTER" << std::endl;
 	inputFile.close();
 	outputFile.close();
 }
 
-void LevelConverter::openFile(std::string filename)
+void LevelConverter::openFile(const std::string& filename)
 {
-	inputFile.open(filename, std::ios::binary);
+	inputFile.open(filename);
 }
 
-void LevelConverter::formatBytes()
+void LevelConverter::loadBytes()
 {
-	for (int i=0;i<width*height;i++)
+	for (int i = 0; i < data.size(); i++)
 	{
-		data[i] = inputFile.get();
-		inputFile.seekg(3, std::ios::cur);
+		for (int j = 0; j < data[i].size(); j++)
+		{
+			data[i][j] = inputFile.get();
+		}
 	}
 }
 
@@ -32,20 +34,24 @@ void LevelConverter::outputBytes()
 {
 	std::cout << "Creating map file from image" << std::endl;
 	outputFile.open("Assets/Graphics/level1.jatmap");
-	for (int j = 0;j<width*height;j++)
+	for (int i = 0; i < data.size(); i++)
 	{
-		outputFile << data[j];
+		for (int j = 0; j < data[i].size(); j++)
+		{
+			outputFile << data[i][j];
+		}
 	}
 }
 
 void LevelConverter::printBytes()
 {
-	for (int i = 0;i<height*width;i++)
+	std::cout << "Creating text from map data" << std::endl;
+	for (int i = 0; i < data.size(); i++)
 	{
-		std::cout << data[i];
-		if (i>width && (i%width == 0))
+		for (int j = 0; j < data[i].size(); j++)
 		{
-			std::cout << std::endl;
+			std::cout << data[i][j];
 		}
+		std::cout << std::endl;
 	}
 }

@@ -3,31 +3,48 @@
 #include <SDL.h>
 #include <iostream>
 #include <SDL_mixer.h>
-#include "Sprite.h"
 
 //Abstract type for different GameStates
 
 class GameState
 {
 public:
-	GameState();
+	GameState(SDL_Renderer* renderer);
 	virtual ~GameState();
 	virtual void update() = 0;
 	virtual void draw() = 0;
-	virtual void init() = 0;
-	void setRenderer(SDL_Renderer* renderer);
-	int getNextState();
+	virtual void revealed();
+
 	enum states
 	{
 		STATE_NONE,
+		STATE_POP,
 		STATE_QUIT,
+		STATE_PAUSE,
 		STATE_INTRO,
 		STATE_TITLE,
 		STATE_EDITOR,
-		STATE_LEVEL1
+		STATE_LEVEL1,
+		STATE_OPTIONS
 	};
+	
+	struct StateRequest
+	{
+		StateRequest()
+		{
+			popCurrent = true;
+			popPrev = false;
+			state = STATE_NONE;
+		}
+		bool popCurrent;
+		bool popPrev;
+		states state;
+	};
+
+	StateRequest getStateRequest();
 protected:
 	SDL_Renderer* m_renderer;
-	int nextState;
+	StateRequest request;
+
 };
 

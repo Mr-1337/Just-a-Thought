@@ -1,20 +1,35 @@
 #pragma once
 #include "GameState.h"
+#include "UIEditorBar.h"
+#include "LevelConverter.h"
+#include "Player.h"
+#include "Text.h"
+#include <SDL_mixer.h>
 #include <random>
 
 class Editor :
 	public GameState
 {
 public:
-	Editor();
+	Editor(SDL_Renderer* renderer);
 	~Editor();
-	void update();
-	void draw();
-	void init();
+	void update() override;
+	void draw() override;
+	
 private:
 	void drawGrid();
-	int tile[39][52];
+
+	int columns;
+	int rows;
+	UIEditorBar* editorBar;
+	std::vector < std::vector <char> > tile;
 	int mouseX, mouseY;
 	int r;
+	int tileX, tileY;
+	const int size = 20;
+	std::vector <Player*> players;
+	const SDL_Color color = { 25,0,99,255 };
+	Text text;
 	SDL_Rect rect;
+	UIEditorBar::Tools currentTool;
 };

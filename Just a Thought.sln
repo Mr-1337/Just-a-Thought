@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Just a Thought", "Just a Thought\Just a Thought.vcxproj", "{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}"
 EndProject
@@ -19,10 +19,13 @@ Global
 		{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}.Debug|x86.Build.0 = Debug|Win32
 		{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}.Release|x64.ActiveCfg = Release|x64
 		{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}.Release|x64.Build.0 = Release|x64
-		{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}.Release|x86.ActiveCfg = Release|Win32
-		{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}.Release|x86.Build.0 = Release|Win32
+		{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}.Release|x86.ActiveCfg = Debug|Win32
+		{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}.Release|x86.Build.0 = Debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBAA2103-1076-4CF0-B7B5-A573FC387A83}
 	EndGlobalSection
 EndGlobal

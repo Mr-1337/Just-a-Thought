@@ -89,17 +89,14 @@ bool initializeLibs()
 			std::cout << "SDL Image failed to launch! Error: " << IMG_GetError() << std::endl;
 			success = false;
 		}
-		int sndFlags = MIX_INIT_MP3 | MIX_INIT_OGG;
-		if ((Mix_Init(sndFlags)&sndFlags) != sndFlags)
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) != 0)
 		{
-			std::cout << "SDL Mixer failed to launch! Error: " << Mix_GetError() << std::endl;
+			std::cout << "SDL Mixer failed to open audio mixer! Error: " << Mix_GetError() << std::endl;
 			success = false;
-		}
-		else
-		{
-			if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) != 0)
+			int sndFlags = MIX_INIT_MP3 | MIX_INIT_OGG;
+			if ((Mix_Init(sndFlags)&sndFlags) != sndFlags)
 			{
-				std::cout << "SDL Mixer failed to open audio mixer! Error: " << Mix_GetError() << std::endl;
+				std::cout << "SDL Mixer failed to launch! Error: " << Mix_GetError() << std::endl;
 				success = false;
 			}
 		}

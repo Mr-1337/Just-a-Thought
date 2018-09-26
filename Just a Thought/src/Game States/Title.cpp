@@ -7,7 +7,7 @@ Title::Title(SDL_Renderer* renderer):
 
 	menu = new Sprite(m_renderer);
 
-	menu->load("Assets/Graphics/Shrek.png");
+	menu->load("Assets/Graphics/tempmenu.png");
 
 	int w, h;
 	GameSettings::getDimensions(&w, &h);

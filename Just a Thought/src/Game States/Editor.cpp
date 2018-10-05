@@ -90,7 +90,7 @@ void Editor::update()
 				}
 				break;
 			case UIEditorBar::TOOL_PLAYER:
-				players.push_back(new Player(m_renderer, tile));
+				//players.push_back(new Player(m_renderer, tile));
 				break;
 			}
 		}

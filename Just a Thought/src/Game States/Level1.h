@@ -5,6 +5,7 @@
 #include "../Graphics/Text.h"
 #include "../Util/Timer.h"
 #include "../Gameplay/Enemy.h"
+#include "../Gameplay/GameWorld.h"
 #include <SDL_net.h>
 
 class Level1 :
@@ -18,15 +19,13 @@ public:
 
 private:
 	Player* m_player;
-	std::vector< std::vector <char> > tiles;
 	SDL_Rect rect;
-	const int size = 20;
 	bool escape;
 	std::string fps;
 	int frame;
 	Text Counter;
 	SDL_Color fontColor;
 	Timer fpsTimer;
-	Enemy* enemy;
+	GameWorld gameWorld;
 };
 

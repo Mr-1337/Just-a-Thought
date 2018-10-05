@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(SDL_Renderer* renderer, std::vector <std::vector <char> > &mapIn) 
-	: m_renderer(renderer), map(mapIn), g(0.1635f)
+Player::Player(SDL_Renderer* renderer, GameWorld &gameWorld) 
+	: m_renderer(renderer), m_map(gameWorld), g(0.1635f)
 {
 	if (m_renderer != nullptr)
 	{
@@ -62,15 +62,15 @@ void Player::update()
 	if (x > 750)
 		x = 750;
 
-	if (map[(y + 80) / 20][(x + 20) / 20] == 0 && y+floor(yVel) > 0)
+	if (m_map.getData()[(y + 80) / 20][(x + 20) / 20] == 0 && y+floor(yVel) > 0)
 	{
 		y += floor(yVel);
 	}
 	yVel += g;
 
-	while (map[(y + 80) / 20][(x + 20) / 20] != 0)
+	while (m_map.getData()[(y + 80) / 20][(x + 20) / 20] != 0)
 	{
-		switch (map[(y + 80 ) / 20][(x + 20) / 20])
+		switch (m_map.getData()[(y + 80 ) / 20][(x + 20) / 20])
 		{
 		case 1:
 			y--;

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Gameplay\GameWorld.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="src\Graphics\AnimatedSprite.cpp" />
     <ClCompile Include="src\UI\ButtonBase.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="src\UI\UIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Gameplay\GameWorld.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="src\Graphics\AnimatedSprite.h" />
     <ClInclude Include="src\UI\ButtonBase.h" />

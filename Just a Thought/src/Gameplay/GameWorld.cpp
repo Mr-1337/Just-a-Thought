@@ -2,8 +2,8 @@
 
 
 
-GameWorld::GameWorld(const std::string& path, SDL_Renderer* renderer) :
-	m_mapData(30, std::vector<char>(40)), m_levLoader(m_mapData), m_renderer(renderer)
+GameWorld::GameWorld(const std::string& path, SDL_Renderer* renderer, const Camera& camera) :
+	m_mapData(30, std::vector<char>(40)), m_levLoader(m_mapData), m_renderer(renderer), m_cam(camera)
 {
 	m_levLoader.openFile("Assets/Graphics/level1.jatmap");
 	m_levLoader.loadBytes();
@@ -19,12 +19,15 @@ void GameWorld::draw()
 {
 	m_rect.w = size;
 	m_rect.h = size;
+	xOffset = m_cam.getPos().first;
+	yOffset = m_cam.getPos().second;
+
 	for (int i = 0; i < 30; i++)
 	{
 		for (int j = 0; j < 40; j++)
 		{
-			m_rect.x = size * j;
-			m_rect.y = size * i;
+			m_rect.x = size * j - xOffset;
+			m_rect.y = size * i - yOffset;
 			switch (m_mapData[i][j])
 			{
 			case 1:

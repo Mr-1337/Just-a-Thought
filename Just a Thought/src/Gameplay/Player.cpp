@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(SDL_Renderer* renderer, GameWorld &gameWorld) 
-	: m_renderer(renderer), m_map(gameWorld), g(0.1635f)
+Player::Player(SDL_Renderer* renderer, GameWorld &gameWorld, Camera &camera) 
+	: m_renderer(renderer), m_map(gameWorld), g(0.1635f), m_cam(camera)
 {
 	if (m_renderer != nullptr)
 	{
@@ -36,7 +36,7 @@ void Player::setX(int X)
 void Player::update()
 {
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
-
+	m_cam.follow({ x, y+60 });
 	static int speed;
 	if (fast)
 		speed = 6;
@@ -88,7 +88,7 @@ void Player::update()
 void Player::draw()
 {
 	m_sprite->setFlip(flip);
-	m_sprite->setX(x);
-	m_sprite->setY(y);
+	m_sprite->setX(x - m_cam.getPos().first);
+	m_sprite->setY(y - m_cam.getPos().second);
 	m_sprite->draw();
 }

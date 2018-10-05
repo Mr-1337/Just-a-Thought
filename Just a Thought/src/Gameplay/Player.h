@@ -6,7 +6,7 @@
 class Player
 {
 public:
-	Player(SDL_Renderer* renderer, GameWorld &gameWorld);
+	Player(SDL_Renderer* renderer, GameWorld &gameWorld, Camera &camera);
 	~Player();
 	void update();
 	void draw();
@@ -23,5 +23,6 @@ private:
 	float yVel;
 	int x;
 	int y;
+	Camera &m_cam;
 };
 

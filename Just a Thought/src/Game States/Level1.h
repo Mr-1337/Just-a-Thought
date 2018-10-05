@@ -21,11 +21,7 @@ private:
 	Player* m_player;
 	SDL_Rect rect;
 	bool escape;
-	std::string fps;
-	int frame;
-	Text Counter;
-	SDL_Color fontColor;
-	Timer fpsTimer;
+	Camera m_cam;
 	GameWorld gameWorld;
 };
 

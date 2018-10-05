@@ -3,12 +3,13 @@
 #include <String>
 #include <SDL.h>
 #include "../IO/LevelConverter.h"
+#include "../Graphics/Camera.h"
 
 class GameWorld
 {
 
 public:
-	GameWorld(const std::string& path, SDL_Renderer* renderer);
+	GameWorld(const std::string& path, SDL_Renderer* renderer, const Camera& camera);
 	~GameWorld();
 
 
@@ -21,5 +22,7 @@ private:
 	SDL_Renderer* m_renderer;
 	SDL_Rect m_rect;
 	const int size = 20;
+	const Camera& m_cam;
+	int xOffset, yOffset;
 };
 

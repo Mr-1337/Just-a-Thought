@@ -22,6 +22,7 @@ GameEngine::GameEngine(std::string title)
 	else
 	{
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
 		if (m_renderer == NULL)
 		{
 			std::cout << "Renderer creation failed! Error: " << SDL_GetError() << std::endl;

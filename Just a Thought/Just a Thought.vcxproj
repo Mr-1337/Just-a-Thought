@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="src\Graphics\AnimatedSprite.cpp" />
     <ClCompile Include="src\UI\ButtonBase.cpp" />
     <ClCompile Include="src\Game States\Editor.cpp" />
@@ -38,7 +39,7 @@
     <ClCompile Include="src\Graphics\Sprite.cpp" />
     <ClCompile Include="src\Game States\StateMachine.cpp" />
     <ClCompile Include="src\Graphics\Text.cpp" />
-    <ClCompile Include="src\Core\Timer.cpp" />
+    <ClCompile Include="src\Util\Timer.cpp" />
     <ClCompile Include="src\Game States\Title.cpp" />
     <ClCompile Include="src\UI\UIContainer.cpp" />
     <ClCompile Include="src\UI\UIEditorBar.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="src\UI\UIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="src\Graphics\AnimatedSprite.h" />
     <ClInclude Include="src\UI\ButtonBase.h" />
     <ClInclude Include="src\Game States\Editor.h" />
@@ -65,7 +67,7 @@
     <ClInclude Include="src\Graphics\Sprite.h" />
     <ClInclude Include="src\Game States\StateMachine.h" />
     <ClInclude Include="src\Graphics\Text.h" />
-    <ClInclude Include="src\Core\Timer.h" />
+    <ClInclude Include="src\Util\Timer.h" />
     <ClInclude Include="src\Game States\Title.h" />
     <ClInclude Include="src\UI\UIContainer.h" />
     <ClInclude Include="src\UI\UIEditorBar.h" />

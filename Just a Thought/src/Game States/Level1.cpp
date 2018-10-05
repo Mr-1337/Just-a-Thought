@@ -63,7 +63,7 @@ void Level1::draw()
 	SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
 	SDL_RenderClear(m_renderer);
 	m_player->draw();
-	enemy->draw();
+	//enemy->draw();
 	rect.w = size;
 	rect.h = size;
 	for (int i = 0;i < 30;i++)

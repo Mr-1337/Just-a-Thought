@@ -1,6 +1,6 @@
 #pragma once
 #include "../Graphics/Sprite.h"
-#include "../Core/Timer.h"
+#include "../Util/Timer.h"
 class AnimatedSprite :
 	public Sprite
 {

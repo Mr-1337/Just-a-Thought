@@ -1,6 +1,6 @@
 #pragma once
 #include "GameState.h"
-#include "../Core/Timer.h"
+#include "../Util/Timer.h"
 #include "../UI/MenuButton.h"
 #include "../UI/Slider.h"
 #include <SDL_mixer.h>

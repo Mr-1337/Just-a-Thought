@@ -1,7 +1,7 @@
 #pragma once
 #include "../Graphics/Sprite.h"
 #include "Player.h"
-#include "../Core/Timer.h"
+#include "../Util/Timer.h"
 class Enemy
 {
 public:

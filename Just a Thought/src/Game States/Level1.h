@@ -3,7 +3,7 @@
 #include "../Gameplay/Player.h"
 #include "../IO/LevelConverter.h"
 #include "../Graphics/Text.h"
-#include "../Core/Timer.h"
+#include "../Util/Timer.h"
 #include "../Gameplay/Enemy.h"
 #include <SDL_net.h>
 

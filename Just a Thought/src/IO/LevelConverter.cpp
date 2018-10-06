@@ -32,7 +32,6 @@ void LevelConverter::loadBytes()
 
 void LevelConverter::outputBytes()
 {
-	std::cout << "Creating map file from image" << std::endl;
 	outputFile.open("Assets/Graphics/level1.jatmap");
 	for (int i = 0; i < data.size(); i++)
 	{

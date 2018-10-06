@@ -1,18 +1,14 @@
 #include "Editor.h"
 
 Editor::Editor(SDL_Renderer* renderer) :
-	GameState(renderer), columns(40), rows(30), tile(rows, std::vector<char>(columns)), text(renderer, " ")
+	GameState(renderer)
 {
-	for (int i = 0; i < rows; i++)
-	{
-		tile[i].assign(columns, 0);
-	}
 	SDL_GetMouseState(&mouseX, &mouseY);
 	editorBar = new UIEditorBar(m_renderer);
-	rect.w = size;
-	rect.h = size;
-	r = 1;
-	text.load("Assets/Font/Halo3.ttf", 30 , color);
+	m_world = new GameWorld("Graphics/Assets/level1.jatmap", m_renderer, m_cam, 30, 40);
+	m_cursorHighlight.w = size;
+	m_cursorHighlight.h = size;
+	m_brushR = 1;
 }
 
 Editor::~Editor()
@@ -38,23 +34,20 @@ Editor::~Editor()
 
 	if (result == 0)
 	{
-		LevelConverter saver(tile);
-		saver.outputBytes();
+
 	}
 	
 	delete editorBar;
+	delete m_world;
 }
 
 void Editor::update()
 {
 	editorBar->update();
 	currentTool = editorBar->getSelected();
-	static bool down = false;
-	static bool up = false;
-	static bool enter = false;
-	static bool space = false;
-	tileX = ((mouseX / size) - (r - 1));
-	tileY = ((mouseY / size) - (r - 1));
+
+	tileX = (((mouseX)/ size) - (m_brushR - 1));
+	tileY = (((mouseY)/ size) - (m_brushR - 1));
 
 	if (mouseY > 60)
 	{
@@ -63,34 +56,16 @@ void Editor::update()
 			switch (currentTool)
 			{
 			case UIEditorBar::TOOL_PENCIL:
-				for (int i = 0; i < r * 2 - 1; i++)
-				{
-					for (int j = 0; j < r * 2 - 1; j++)
-					{
-						tile[tileY + i][tileX + j] = 2;
-					}
-				}
+				paint(1);
 				break;
 			case UIEditorBar::TOOL_ERASER:
-				for (int i = 0; i < r * 2 - 1; i++)
-				{
-					for (int j = 0; j < r * 2 - 1; j++)
-					{
-						tile[tileY + i][tileX + j] = 0;
-					}
-				}
+				paint(0);
 				break;
 			case UIEditorBar::TOOL_HAND:
-				for (int i = 0; i < r * 2 - 1; i++)
-				{
-					for (int j = 0; j < r * 2 - 1; j++)
-					{
-						tile[tileY + i][tileX + j] = 1;
-					}
-				}
+				m_cam += m_dragMotion;
 				break;
 			case UIEditorBar::TOOL_PLAYER:
-				//players.push_back(new Player(m_renderer, tile));
+				paint(2);
 				break;
 			}
 		}
@@ -100,59 +75,11 @@ void Editor::update()
 		SDL_GetMouseState(&mouseX, &mouseY);
 	}
 
-	if (!players.empty())
-	{
-		for (Player* player : players)
-		{
-			player->update();
-		}
-	}
+	m_dragMotion = { 0, 0 };
 
-	const Uint8* keys = SDL_GetKeyboardState(NULL);
-	if(keys[SDL_SCANCODE_DOWN] && !down && r > 1)
-	{
-		down = true;
-		r--;
-		std::cout << r << std::endl;
-	}
-	if (!keys[SDL_SCANCODE_DOWN] && down)
-	{
-		down = false;
-	}
-	if (keys[SDL_SCANCODE_UP] && !up)
-	{
-		up = true;
-		r++;
-		std::cout << r << std::endl;
-	}
-	if (!keys[SDL_SCANCODE_UP] && up)
-	{
-		up = false;
-	}
 	if (currentTool == UIEditorBar::TOOL_FILE)
 	{
-		if (keys[SDL_SCANCODE_RETURN] && !enter)
-		{
-			enter = true;
-			LevelConverter converter(tile);
-			converter.outputBytes();
-			converter.printBytes();
-		}
-		if (!keys[SDL_SCANCODE_RETURN] && enter)
-		{
-			enter = false;
-		}
-		if (keys[SDL_SCANCODE_SPACE] && !space)
-		{
-			space = true;
-			LevelConverter converter(tile);
-			converter.openFile("Assets/Graphics/level1.jatmap");
-			converter.loadBytes();
-		}
-		if (!keys[SDL_SCANCODE_SPACE] && space)
-		{
-			space = false;
-		}
+		
 	}
 }
 
@@ -160,29 +87,9 @@ void Editor::draw()
 {
 	SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
 	SDL_RenderClear(m_renderer);
-	rect.w = size;
-	rect.h = size;
-	for (int i = 0;i < rows;i++)
-	{
-		for (int j = 0;j < columns;j++)
-		{
-			rect.x = size * j;
-			rect.y = size * i;
-			switch (tile[i][j])
-			{
-			case 1:
-				SDL_SetRenderDrawColor(m_renderer, 0xff, 0x00, 0x00, 0xff);
-				SDL_RenderFillRect(m_renderer, &rect);
-				break;
-			case 2:
-				SDL_SetRenderDrawColor(m_renderer, 0x00, 0xff, 0x00, 0xff);
-				SDL_RenderFillRect(m_renderer, &rect);
-				break;
-			}
-		}		
-	}
-	rect.w = 2 * size * (r-1) + size;
-	rect.h = 2 * size * (r-1) + size;
+
+	m_world->draw();
+
 	if (mouseY > 60)
 	{
 		SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x33, 0x88);
@@ -191,22 +98,67 @@ void Editor::draw()
 	{
 		SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x33, 0x00);
 	}
-	rect.x = ((mouseX / size) * size) - (size * (r-1));
-	rect.y = ((mouseY / size) * size) - (size * (r-1));
-	SDL_RenderFillRect(m_renderer, &rect);
+	
+	drawHighlight();
 	drawGrid();
 	editorBar->draw();
-	text.updateText(std::to_string(players.size()), color);
-	text.draw();
-	if (!players.empty())
-	{
-		for (Player* player : players)
-		{
-			player->draw();
-		}
-	}
 
 	SDL_RenderPresent(m_renderer);
+}
+
+
+void Editor::paint(char value)
+{
+	for (int i = tileY; i <= (tileY + 2 * (m_brushR-1)); i++)
+	{
+		for (int j = tileX; j <= (tileX + 2 * (m_brushR - 1)); j++)
+		{
+			m_world->setData(j, i, value);
+		}
+	}
+}
+
+
+void Editor::eventHandler()
+{
+	while (SDL_PollEvent(&m_event) != 0)
+	{
+		switch (m_event.type)
+		{
+		case SDL_QUIT:
+			request.state = STATE_QUIT;
+			break;
+		case SDL_KEYDOWN:
+			if (!m_event.key.repeat)
+			{
+				switch (m_event.key.keysym.scancode)
+				{
+				case SDL_SCANCODE_UP:
+					m_brushR++;
+					break;
+				case SDL_SCANCODE_DOWN:
+					if (m_brushR > 1) 
+						m_brushR--;
+					break;
+				}
+			}
+			break;
+		case SDL_MOUSEMOTION:
+			m_dragMotion.first = -m_event.motion.xrel;
+			m_dragMotion.second = -m_event.motion.yrel;
+			break;
+		}
+	}
+}
+
+void Editor::drawHighlight()
+{
+	m_cursorHighlight.w = size + 2 * size * (m_brushR-1);
+	m_cursorHighlight.h = size + 2 * size * (m_brushR - 1);
+
+	m_cursorHighlight.x = tileX * size - m_cam.getPos().first%size;
+	m_cursorHighlight.y = tileY * size - m_cam.getPos().second%size;
+	SDL_RenderFillRect(m_renderer, &m_cursorHighlight);
 }
 
 void Editor::drawGrid()
@@ -214,10 +166,10 @@ void Editor::drawGrid()
 	SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0x22);
 	for (int i = 0;i < 52;i++)
 	{
-		SDL_RenderDrawLine(m_renderer, size * i, 0,size * i, 768);
+		SDL_RenderDrawLine(m_renderer, size * i - m_cam.getPos().first%size, 0, size * i - m_cam.getPos().first%size, 768);
 	}
 	for (int i = 0;i < 39;i++)
 	{
-		SDL_RenderDrawLine(m_renderer, 0, size * i, 1024, size * i);
+		SDL_RenderDrawLine(m_renderer, 0, size * i - m_cam.getPos().second%size, 1024, size * i - m_cam.getPos().second%size);
 	}
 }

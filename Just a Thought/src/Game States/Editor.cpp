@@ -46,8 +46,12 @@ void Editor::update()
 	editorBar->update();
 	currentTool = editorBar->getSelected();
 
-	tileX = (((mouseX)/ size) - (m_brushR - 1));
-	tileY = (((mouseY)/ size) - (m_brushR - 1));
+	tileX = (((mouseX + m_cam.getPos().first)/ size) - (m_brushR - 1));
+	tileY = (((mouseY + m_cam.getPos().second)/ size) - (m_brushR - 1));
+	if (tileX < 0)
+		tileX--;
+	if (tileY < 0)
+		tileY--;
 
 	if (mouseY > 60)
 	{
@@ -107,6 +111,7 @@ void Editor::draw()
 }
 
 
+
 void Editor::paint(char value)
 {
 	for (int i = tileY; i <= (tileY + 2 * (m_brushR-1)); i++)
@@ -153,11 +158,11 @@ void Editor::eventHandler()
 
 void Editor::drawHighlight()
 {
-	m_cursorHighlight.w = size + 2 * size * (m_brushR-1);
+	m_cursorHighlight.w = size + 2 * size * (m_brushR - 1);
 	m_cursorHighlight.h = size + 2 * size * (m_brushR - 1);
 
-	m_cursorHighlight.x = tileX * size - m_cam.getPos().first%size;
-	m_cursorHighlight.y = tileY * size - m_cam.getPos().second%size;
+	m_cursorHighlight.x = tileX * size - m_cam.getPos().first;
+	m_cursorHighlight.y = tileY * size - m_cam.getPos().second;
 	SDL_RenderFillRect(m_renderer, &m_cursorHighlight);
 }
 

@@ -1,7 +1,7 @@
 #include "StateMachine.h"
 
-StateMachine::StateMachine(SDL_Renderer* renderer):
-	m_renderer(renderer)
+StateMachine::StateMachine(SDL_Window* window):
+	m_window(window)
 {
 	
 }
@@ -37,22 +37,22 @@ void StateMachine::setState(GameState::StateRequest newState)
 	switch (newState.state)
 	{
 	case GameState::STATE_INTRO:
-		stateStack.push(std::make_unique<Intro>(m_renderer));
+		stateStack.push(std::make_unique<Intro>(m_window));
 		break;
 	case GameState::STATE_TITLE:
-		stateStack.push(std::make_unique<Title>(m_renderer));
+		stateStack.push(std::make_unique<Title>(m_window));
 		break;
 	case GameState::STATE_EDITOR:
-		stateStack.push(std::make_unique<Editor>(m_renderer));
+		stateStack.push(std::make_unique<Editor>(m_window));
 		break;
 	case GameState::STATE_OPTIONS:
-		stateStack.push(std::make_unique<OptionScreen>(m_renderer));
+		stateStack.push(std::make_unique<OptionScreen>(m_window));
 		break;
 	case GameState::STATE_PAUSE:
-		stateStack.push(std::make_unique<PauseMenu>(m_renderer));
+		stateStack.push(std::make_unique<PauseMenu>(m_window));
 		break;
 	case GameState::STATE_LEVEL1:
-		stateStack.push(std::make_unique<Level1>(m_renderer));
+		stateStack.push(std::make_unique<Level1>(m_window));
 		break;
 	}
 }

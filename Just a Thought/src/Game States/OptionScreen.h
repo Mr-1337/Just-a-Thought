@@ -5,7 +5,7 @@ class OptionScreen :
 	public GameState
 {
 public:
-	OptionScreen(SDL_Renderer* renderer);
+	OptionScreen(SDL_Window* window);
 	void draw() override;
 	void update() override;
 	~OptionScreen();

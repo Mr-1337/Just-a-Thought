@@ -2,11 +2,11 @@
 
 
 
-OptionScreen::OptionScreen(SDL_Renderer* renderer) :
-	GameState(renderer)
+OptionScreen::OptionScreen(SDL_Window* window) :
+	GameState(window)
 {
 	std::cout << "Entering Options Menu " << std::endl;
-	volume = new Slider(renderer);
+	volume = new Slider(m_renderer);
 	volume->setX(300);
 	volume->setY(500);
 	escape = false;

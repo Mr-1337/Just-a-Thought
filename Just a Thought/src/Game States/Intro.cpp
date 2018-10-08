@@ -1,7 +1,7 @@
 #include "Intro.h"
 
-Intro::Intro(SDL_Renderer* renderer):
-	alpha(255),timer(0),GameState(renderer)
+Intro::Intro(SDL_Window* window):
+	alpha(255),timer(0),GameState(window)
 {
 	std::cout << "Created Intro" << std::endl;
 	splash = new Sprite(m_renderer);

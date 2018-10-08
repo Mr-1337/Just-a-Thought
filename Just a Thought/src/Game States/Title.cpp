@@ -1,7 +1,7 @@
 #include "Title.h"
 
-Title::Title(SDL_Renderer* renderer):
-	GameState(renderer)
+Title::Title(SDL_Window* window):
+	GameState(window)
 {
 	std::cout << "Created Title" << std::endl;
 

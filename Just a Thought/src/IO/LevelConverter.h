@@ -2,12 +2,17 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <cstdint>
+#include <filesystem>
 #include <vector>
+#include "json.h"
+#include "../Gameplay/GameWorld.h"
+
+using json = nlohmann::json;
+
 class LevelConverter
 {
 public:
-	LevelConverter(std::vector<std::vector<char> > &inputData);
+	LevelConverter(GameWorld& world);
 	~LevelConverter();
 	void openFile(const std::string& filename);
 	void loadBytes();
@@ -17,6 +22,12 @@ public:
 private:
 	std::ifstream inputFile;
 	std::ofstream outputFile;
+
+	json jsonWorld;
+	GameWorld& world;
+
 	std::vector <std::vector <char> > &data;
+
+	std::filesystem::path filePath;
 };
 

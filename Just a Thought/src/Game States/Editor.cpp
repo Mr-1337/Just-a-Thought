@@ -1,14 +1,18 @@
 #include "Editor.h"
 
-Editor::Editor(SDL_Renderer* renderer) :
-	GameState(renderer)
+Editor::Editor(SDL_Window* window) :
+	GameState(window)
 {
 	SDL_GetMouseState(&mouseX, &mouseY);
 	editorBar = new UIEditorBar(m_renderer);
-	m_world = new GameWorld("Graphics/Assets/level1.jatmap", m_renderer, m_cam, 30, 40);
+	m_world = new GameWorld("Assets/Graphics/level1.json", m_renderer, m_cam, 30, 40);
+	m_coords = new Text(m_renderer, " ");
+	m_coords->load("Assets/Font/Halo3.ttf", 12);
 	m_cursorHighlight.w = size;
 	m_cursorHighlight.h = size;
 	m_brushR = 1;
+	m_coords->setX(600);
+	m_coords->setY(20);
 }
 
 Editor::~Editor()
@@ -45,6 +49,7 @@ void Editor::update()
 {
 	editorBar->update();
 	currentTool = editorBar->getSelected();
+	m_coords->updateText("( " + std::to_string(tileX) + ", " + std::to_string(tileY) + " )");
 
 	tileX = (((mouseX + m_cam.getPos().first)/ size) - (m_brushR - 1));
 	tileY = (((mouseY + m_cam.getPos().second)/ size) - (m_brushR - 1));
@@ -83,7 +88,7 @@ void Editor::update()
 
 	if (currentTool == UIEditorBar::TOOL_FILE)
 	{
-		
+
 	}
 }
 
@@ -106,7 +111,7 @@ void Editor::draw()
 	drawHighlight();
 	drawGrid();
 	editorBar->draw();
-
+	m_coords->draw();
 	SDL_RenderPresent(m_renderer);
 }
 
@@ -142,8 +147,16 @@ void Editor::eventHandler()
 					m_brushR++;
 					break;
 				case SDL_SCANCODE_DOWN:
-					if (m_brushR > 1) 
+					if (m_brushR > 1)
 						m_brushR--;
+					break;
+				case SDL_SCANCODE_ESCAPE:
+					request.popCurrent = false;
+					request.state = STATE_PAUSE;
+					break;
+				case SDL_SCANCODE_RETURN:
+					std::cout << "Saving" << std::endl;
+					m_world->save();
 					break;
 				}
 			}
@@ -171,10 +184,10 @@ void Editor::drawGrid()
 	SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0x22);
 	for (int i = 0;i < 52;i++)
 	{
-		SDL_RenderDrawLine(m_renderer, size * i - m_cam.getPos().first%size, 0, size * i - m_cam.getPos().first%size, 768);
+		SDL_RenderDrawLine(m_renderer, size * i - m_cam.getPos().first % size, 0, size * i - m_cam.getPos().first % size, 768);
 	}
 	for (int i = 0;i < 39;i++)
 	{
-		SDL_RenderDrawLine(m_renderer, 0, size * i - m_cam.getPos().second%size, 1024, size * i - m_cam.getPos().second%size);
+		SDL_RenderDrawLine(m_renderer, 0, size * i - m_cam.getPos().second % size, 1024, size * i - m_cam.getPos().second % size);
 	}
 }

@@ -10,7 +10,7 @@ class Intro :
 	public GameState
 {
 public:
-	Intro(SDL_Renderer* renderer);
+	Intro(SDL_Window* window);
 	~Intro();
 	void update();
 	void draw();

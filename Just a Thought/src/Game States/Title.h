@@ -6,7 +6,7 @@ class Title :
 	public GameState
 {
 public:
-	Title(SDL_Renderer* renderer);
+	Title(SDL_Window* window);
 	~Title();
 	void update() override;
 	void draw() override;

@@ -3,25 +3,49 @@
 
 
 GameWorld::GameWorld(const std::string& path, SDL_Renderer* renderer, const Camera& camera, int rows, int columns) :
-	m_mapData(rows, std::vector<char>(columns)), m_levLoader(m_mapData), m_renderer(renderer), m_cam(camera)
+	m_path(path), m_renderer(renderer), m_cam(camera), m_rows(rows), m_columns(columns), m_tileData(rows, std::vector<char>(columns))
 {
-	this->rows = rows;
-	this->columns = columns;
-	m_levLoader.openFile(path);
-	m_levLoader.loadBytes();
+	std::cout << m_path << std::endl;
+	m_world.object();
 }
 
 
 GameWorld::~GameWorld()
 {
+	m_iFile.close();
+	m_oFile.close();
+}
+
+
+void GameWorld::load()
+{
+	m_iFile.open(m_path);
+	m_iFile >> m_world;
+
+	m_rows = m_world["size"]["rows"];
+	m_columns = m_world["size"]["columns"];
+
+	m_tileData = m_world["tiles"].get<std::vector<std::vector<char>>>();
+
+}
+
+
+void GameWorld::save()
+{
+	//m_iFile.close();
+	m_oFile.open(m_path);
+	m_world["size"]["rows"] = 30;
+	m_world["size"]["columns"] = 40;
+	m_world["tiles"] = m_tileData;
+	m_oFile << m_world.dump(4);
 }
 
 
 void GameWorld::setData(int x, int y, char value)
 {
-	if ((y >= 0 && y < rows) && (x >= 0 && x < columns))
+	if ((y >= 0 && y < m_rows) && (x >= 0 && x < m_columns))
 	{
-		m_mapData[y][x] = value;
+		m_tileData[y][x] = value;
 	}
 	else
 	{
@@ -37,13 +61,13 @@ void GameWorld::draw() const
 	int xOffset = m_cam.getPos().first;
 	int yOffset = m_cam.getPos().second;
 
-	for (int i = 0; i < rows; i++)
+	for (int i = 0; i < m_rows; i++)
 	{
-		for (int j = 0; j < columns; j++)
+		for (int j = 0; j < m_columns; j++)
 		{
 			rect.x = TILE_SIZE * j - xOffset;
 			rect.y = TILE_SIZE * i - yOffset;
-			switch (m_mapData[i][j])
+			switch (m_tileData[i][j])
 			{
 			case 1:
 				SDL_SetRenderDrawColor(m_renderer, 0xff, 0x00, 0x00, 0xff);

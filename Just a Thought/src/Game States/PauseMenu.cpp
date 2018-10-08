@@ -2,14 +2,14 @@
 
 
 
-PauseMenu::PauseMenu(SDL_Renderer* renderer)
-	:GameState(renderer)
+PauseMenu::PauseMenu(SDL_Window* window)
+	:GameState(window)
 {
 	sprite = new Sprite(m_renderer);
 	sprite->load("Assets/Graphics/shrek.png");
-	quit = new MenuButton(renderer, "Assets/Graphics/quit.png");
-	menu = new MenuButton(renderer, "Assets/Graphics/play.png");
-	volume = new Slider(renderer);
+	quit = new MenuButton(m_renderer, "Assets/Graphics/quit.png");
+	menu = new MenuButton(m_renderer, "Assets/Graphics/play.png");
+	volume = new Slider(m_renderer);
 	quit->setX(375);
 	quit->setY(400);
 	menu->setX(375);

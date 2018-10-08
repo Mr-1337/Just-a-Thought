@@ -1,9 +1,10 @@
 #include "Level1.h"
 
-Level1::Level1(SDL_Renderer* renderer)
-	: GameState(renderer), gameWorld("Assets/Graphics/leve1.jatmap", renderer, m_cam, 30, 40)
+Level1::Level1(SDL_Window* window)
+	: GameState(window), gameWorld("Assets/Graphics/level1.json", m_renderer, m_cam, 30, 40)
 {
 	escape = false;
+	gameWorld.load();
 	m_player = new Player(m_renderer, gameWorld, m_cam);
 
 }

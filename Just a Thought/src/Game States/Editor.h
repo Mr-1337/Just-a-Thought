@@ -13,7 +13,7 @@ class Editor :
 	public GameState
 {
 public:
-	Editor(SDL_Renderer* renderer);
+	Editor(SDL_Window* window);
 	~Editor();
 	void update() override;
 	void draw() override;
@@ -26,6 +26,7 @@ private:
 
 	UIEditorBar* editorBar;
 	GameWorld* m_world;
+	Text* m_coords;
 	int mouseX, mouseY;
 	int m_brushR;
 	int tileX, tileY;

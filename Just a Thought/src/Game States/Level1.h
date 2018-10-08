@@ -12,7 +12,7 @@ class Level1 :
 	public GameState
 {
 public:
-	Level1(SDL_Renderer* renderer);
+	Level1(SDL_Window* window);
 	~Level1();
 	void update() override;
 	void draw() override;

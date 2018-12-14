@@ -9,7 +9,7 @@
 class GameState
 {
 public:
-	GameState(SDL_Renderer* renderer);
+	GameState(SDL_Window* window);
 	virtual ~GameState();
 	virtual void update() = 0;
 	virtual void draw() = 0;
@@ -45,8 +45,8 @@ public:
 	StateRequest getStateRequest();
 protected:
 	SDL_Event m_event;
-	SDL_Renderer* m_renderer;
 	StateRequest request;
-
+	SDL_Window* m_window;
+	SDL_Renderer* m_renderer;
 };
 

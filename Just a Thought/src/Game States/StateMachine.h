@@ -14,7 +14,7 @@
 class StateMachine
 {
 public:
-	StateMachine(SDL_Renderer* renderer);
+	StateMachine(SDL_Window* window);
 	~StateMachine();
 	void setState(GameState::StateRequest newState);
 	GameState::StateRequest getStateRequest();
@@ -24,6 +24,6 @@ public:
 
 private:
 	std::stack <std::unique_ptr<GameState>> stateStack;
-	SDL_Renderer* m_renderer;
+	SDL_Window* m_window;
 };
 

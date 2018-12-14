@@ -12,14 +12,16 @@ class Level1 :
 	public GameState
 {
 public:
-	Level1(SDL_Renderer* renderer);
+	Level1(SDL_Window* window);
 	~Level1();
 	void update() override;
 	void draw() override;
+	void revealed() override;
 
 private:
 	Player* m_player;
 	SDL_Rect rect;
+	Mix_Music* m_music;
 	bool escape;
 	Camera m_cam;
 	GameWorld gameWorld;

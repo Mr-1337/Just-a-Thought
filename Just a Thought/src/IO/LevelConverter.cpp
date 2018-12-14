@@ -1,10 +1,9 @@
 #include "LevelConverter.h"
 
 
-LevelConverter::LevelConverter(std::vector<std::vector<char> > &inputData)
-	: data(inputData)
+LevelConverter::LevelConverter(GameWorld& world)
+	: data(std::vector < std::vector <char> >()), world(world)
 {
-	
 }
 
 LevelConverter::~LevelConverter()
@@ -17,30 +16,24 @@ LevelConverter::~LevelConverter()
 void LevelConverter::openFile(const std::string& filename)
 {
 	inputFile.open(filename);
+	inputFile >> jsonWorld;
 }
 
 void LevelConverter::loadBytes()
 {
-	for (int i = 0; i < data.size(); i++)
-	{
-		for (int j = 0; j < data[i].size(); j++)
-		{
-			data[i][j] = inputFile.get();
-		}
-	}
+	data = jsonWorld["tiles"].get< std::vector <std::vector <char> >>();
+	outputFile.open("Assets/Graphics/level1.json");
 }
 
 void LevelConverter::outputBytes()
 {
-	std::cout << "Creating map file from image" << std::endl;
-	outputFile.open("Assets/Graphics/level1.jatmap");
-	for (int i = 0; i < data.size(); i++)
-	{
-		for (int j = 0; j < data[i].size(); j++)
-		{
-			outputFile << data[i][j];
-		}
-	}
+
+	std::cout << "outputting level bytes" << std::endl;
+
+	outputFile.open("Assets/Graphics/level1.json");
+
+	outputFile << jsonWorld.dump(4);
+
 }
 
 void LevelConverter::printBytes()

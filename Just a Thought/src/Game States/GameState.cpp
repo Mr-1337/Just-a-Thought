@@ -1,7 +1,7 @@
 #include "GameState.h"
 
-GameState::GameState(SDL_Renderer* renderer)
-	: m_renderer(renderer)
+GameState::GameState(SDL_Window* window)
+	: m_window(window), m_renderer(SDL_GetRenderer(window))
 {
 	if (m_renderer == NULL)
 		std::cout << "Renderer is INVALID\n";

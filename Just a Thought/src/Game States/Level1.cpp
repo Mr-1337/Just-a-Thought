@@ -6,7 +6,8 @@ Level1::Level1(SDL_Window* window)
 	escape = false;
 	gameWorld.load();
 	m_player = new Player(m_renderer, gameWorld, m_cam);
-
+	m_music = Mix_LoadMUS("Assets/Sound/boss1.ogg");
+	Mix_PlayMusic(m_music, -1);
 }
 
 Level1::~Level1()
@@ -43,4 +44,11 @@ void Level1::draw()
 	m_player->draw();
 	gameWorld.draw();
 	SDL_RenderPresent(m_renderer);
+}
+
+void Level1::revealed()
+{
+	GameState::revealed();
+	//Mix_PauseMusic();
+	Mix_PlayMusic(m_music, -1);
 }

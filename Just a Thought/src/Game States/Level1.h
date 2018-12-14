@@ -16,10 +16,12 @@ public:
 	~Level1();
 	void update() override;
 	void draw() override;
+	void revealed() override;
 
 private:
 	Player* m_player;
 	SDL_Rect rect;
+	Mix_Music* m_music;
 	bool escape;
 	Camera m_cam;
 	GameWorld gameWorld;

@@ -37,6 +37,7 @@ void Player::update()
 {
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 	m_cam.follow({ x, y+60 });
+	//m_cam.follow({ 200 * sin(SDL_GetTicks() / (6.28 * 10)) , y + 60 });
 	static int speed;
 	if (fast)
 		speed = 6;

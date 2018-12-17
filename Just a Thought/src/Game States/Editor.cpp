@@ -1,12 +1,12 @@
 #include "Editor.h"
 
-Editor::Editor(SDL_Window* window) :
-	GameState(window)
+Editor::Editor() :
+	GameState()
 {
 	SDL_GetMouseState(&mouseX, &mouseY);
 	editorBar = new UIEditorBar(m_renderer);
 	m_world = new GameWorld("Assets/Graphics/level1.json", m_renderer, m_cam, 30, 40);
-	m_coords = new Text(m_renderer, " ");
+	m_coords = new Jangine::Text(" ");
 	m_coords->load("Assets/Font/Halo3.ttf", 12);
 	m_cursorHighlight.w = size;
 	m_cursorHighlight.h = size;
@@ -45,7 +45,7 @@ Editor::~Editor()
 	delete m_world;
 }
 
-void Editor::update()
+void Editor::update(float timestep)
 {
 	editorBar->update();
 	currentTool = editorBar->getSelected();

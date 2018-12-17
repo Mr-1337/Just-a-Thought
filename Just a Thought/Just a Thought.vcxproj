@@ -19,16 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Graphics\Camera.cpp" />
     <ClCompile Include="src\Gameplay\GameWorld.cpp" />
-    <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="src\Graphics\AnimatedSprite.cpp" />
-    <ClCompile Include="src\UI\ButtonBase.cpp" />
     <ClCompile Include="src\Game States\Editor.cpp" />
     <ClCompile Include="src\Gameplay\Enemy.cpp" />
-    <ClCompile Include="src\Core\GameEngine.cpp" />
-    <ClCompile Include="src\Core\GameSettings.cpp" />
-    <ClCompile Include="src\Game States\GameState.cpp" />
     <ClCompile Include="src\Game States\Intro.cpp" />
     <ClCompile Include="src\Game States\Level1.cpp" />
     <ClCompile Include="src\IO\LevelConverter.cpp" />
@@ -37,29 +30,15 @@
     <ClCompile Include="src\Game States\OptionScreen.cpp" />
     <ClCompile Include="src\Game States\PauseMenu.cpp" />
     <ClCompile Include="src\Gameplay\Player.cpp" />
-    <ClCompile Include="src\UI\Slider.cpp" />
-    <ClCompile Include="src\Graphics\Sprite.cpp" />
-    <ClCompile Include="src\Game States\StateMachine.cpp" />
-    <ClCompile Include="src\Graphics\Text.cpp" />
-    <ClCompile Include="src\Util\Timer.cpp" />
     <ClCompile Include="src\Game States\Title.cpp" />
-    <ClCompile Include="src\UI\UIContainer.cpp" />
     <ClCompile Include="src\UI\UIEditorBar.cpp" />
     <ClCompile Include="src\UI\UIEditorBarButton.cpp" />
-    <ClCompile Include="src\UI\UIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Graphics\Camera.h" />
     <ClInclude Include="src\Gameplay\GameWorld.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="src\Graphics\AnimatedSprite.h" />
     <ClInclude Include="src\IO\json.h" />
-    <ClInclude Include="src\UI\ButtonBase.h" />
     <ClInclude Include="src\Game States\Editor.h" />
     <ClInclude Include="src\Gameplay\Enemy.h" />
-    <ClInclude Include="src\Core\GameEngine.h" />
-    <ClInclude Include="src\Core\GameSettings.h" />
-    <ClInclude Include="src\Game States\GameState.h" />
     <ClInclude Include="src\Game States\Intro.h" />
     <ClInclude Include="src\Game States\Level1.h" />
     <ClInclude Include="src\IO\LevelConverter.h" />
@@ -68,22 +47,20 @@
     <ClInclude Include="src\Game States\PauseMenu.h" />
     <ClInclude Include="src\Gameplay\Player.h" />
     <ClInclude Include="src\Core\resource.h" />
-    <ClInclude Include="src\UI\Slider.h" />
-    <ClInclude Include="src\Graphics\Sprite.h" />
-    <ClInclude Include="src\Game States\StateMachine.h" />
-    <ClInclude Include="src\Graphics\Text.h" />
-    <ClInclude Include="src\Util\Timer.h" />
     <ClInclude Include="src\Game States\Title.h" />
-    <ClInclude Include="src\UI\UIContainer.h" />
     <ClInclude Include="src\UI\UIEditorBar.h" />
     <ClInclude Include="src\UI\UIEditorBarButton.h" />
-    <ClInclude Include="src\UI\UIElement.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\Core\Just a Thought.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="jat.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\dev\Jangine\Jangine\Jangine.vcxproj">
+      <Project>{f29718ff-46be-4619-b465-d19664deb485}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{741BA3FD-6379-4D6D-A3AC-06087AEB5EC4}</ProjectGuid>
@@ -138,8 +115,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\dev\Jangine\Jangine\src;$(SolutionDir)Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\dev\Jangine\bin\Win32\Debug;D:\dev\Jangine\bin\Win32\Release;$(SolutionDir)Libraries\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\Intermediates\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -148,8 +125,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\dev\Jangine\Jangine\src;$(SolutionDir)Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\dev\Jangine\bin\Win32\Debug;D:\dev\Jangine\bin\Win32\Release;$(SolutionDir)Libraries\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\Intermediates\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -170,7 +147,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2test.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Jangine.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2test.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -205,7 +182,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2test.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Jangine.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2test.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

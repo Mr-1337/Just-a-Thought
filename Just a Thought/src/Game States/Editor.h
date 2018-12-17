@@ -1,21 +1,22 @@
 #pragma once
-#include "GameState.h"
+#include <Game States/GameState.h>
+#include <Graphics/Text.h>
+#include <Graphics/Camera.h>
+#include <SDL_mixer.h>
+#include <random>
+
 #include "../UI/UIEditorBar.h"
 #include "../IO/LevelConverter.h"
 #include "../Gameplay/GameWorld.h"
 #include "../Gameplay/Player.h"
-#include "../Graphics/Text.h"
-#include "../Graphics/Camera.h"
-#include <SDL_mixer.h>
-#include <random>
 
 class Editor :
-	public GameState
+	public Jangine::GameState
 {
 public:
-	Editor(SDL_Window* window);
+	Editor();
 	~Editor();
-	void update() override;
+	void update(float timestep) override;
 	void draw() override;
 	void eventHandler() override;
 	
@@ -26,7 +27,7 @@ private:
 
 	UIEditorBar* editorBar;
 	GameWorld* m_world;
-	Text* m_coords;
+	Jangine::Text* m_coords;
 	int mouseX, mouseY;
 	int m_brushR;
 	int tileX, tileY;
@@ -34,5 +35,5 @@ private:
 	const int size = 20;
 	SDL_Rect m_cursorHighlight;
 	UIEditorBar::Tools currentTool;
-	Camera m_cam;
+	Jangine::Camera m_cam;
 };

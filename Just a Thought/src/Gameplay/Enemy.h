@@ -1,7 +1,7 @@
 #pragma once
-#include "../Graphics/Sprite.h"
+#include <Graphics/Sprite.h>
+#include <Util/Timer.h>
 #include "Player.h"
-#include "../Util/Timer.h"
 class Enemy
 {
 public:
@@ -11,9 +11,9 @@ public:
 private:
 	SDL_Renderer* renderer;
 	SDL_Rect shot;
-	Timer timer;
-	Sprite leg;
-	Sprite top;
+	Jangine::Timer timer;
+	Jangine::Sprite leg;
+	Jangine::Sprite top;
 	const Player& player;
 	SDL_Point pivot = { 200,255 };
 	double angle;

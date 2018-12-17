@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Gameplay\GameWorld.h" />
-    <ClInclude Include="src\IO\json.h" />
     <ClInclude Include="src\Game States\Editor.h" />
     <ClInclude Include="src\Gameplay\Enemy.h" />
     <ClInclude Include="src\Game States\Intro.h" />

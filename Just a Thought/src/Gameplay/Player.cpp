@@ -1,13 +1,13 @@
 #include "Player.h"
 
-Player::Player(SDL_Renderer* renderer, GameWorld &gameWorld, Camera &camera) 
+Player::Player(SDL_Renderer* renderer, GameWorld &gameWorld, Jangine::Camera &camera) 
 	: m_renderer(renderer), m_map(gameWorld), g(0.1635f), m_cam(camera)
 {
 	if (m_renderer != nullptr)
 	{
 		flip = SDL_FLIP_NONE;
 		SDL_Rect clip = {0,0,40,80};
-		m_sprite = new AnimatedSprite(m_renderer, clip);
+		m_sprite = new Jangine::AnimatedSprite(clip);
 		m_sprite->load("Assets/Graphics/player.png");
 		m_sprite->setFrameTime(80);
 		std::cout << "Player Created!" << std::endl;

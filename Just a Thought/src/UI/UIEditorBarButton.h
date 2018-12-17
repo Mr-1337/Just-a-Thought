@@ -1,11 +1,11 @@
 #pragma once
-#include "UIElement.h"
-#include "ButtonBase.h"
+#include <UI/UIElement.h>
+#include <UI/ButtonBase.h>
 class UIEditorBarButton :
-	public ButtonBase
+	public Jangine::ButtonBase
 {
 public:
-	UIEditorBarButton(SDL_Renderer* renderer, std::string path);
+	UIEditorBarButton(std::string path);
 	~UIEditorBarButton();
 
 	void draw() override;

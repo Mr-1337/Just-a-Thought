@@ -3,16 +3,15 @@
 #include <SDL.h>
 #include <iostream>
 #include <fstream>
-#include "../IO/json.h"
-#include "../Graphics/Camera.h"
-
-using json = nlohmann::json;
+#include <Graphics/Camera.h>
+#include <vector>
+#include <string>
 
 class GameWorld
 {
 
 public:
-	GameWorld(const std::string& path, SDL_Renderer* renderer, const Camera& camera, int rows = 30, int columns = 40);
+	GameWorld(const std::string& path, const Jangine::Camera& camera, int rows = 30, int columns = 40);
 	~GameWorld();
 
 	inline const std::vector <std::vector<char>> &getData() const { return m_tileData; }
@@ -32,15 +31,12 @@ private:
 	const std::string m_path;
 	std::ifstream m_iFile;
 	std::ofstream m_oFile;
-	
 
-
-	json m_world;
 	std::vector<std::vector<char>> m_tileData;
 	//std::vector<Structures> m_structureData;
 	//std::vector<EnemySpawns> m_enemyData;
 
 	SDL_Renderer* m_renderer;
-	const Camera& m_cam;
+	const Jangine::Camera& m_cam;
 };
 

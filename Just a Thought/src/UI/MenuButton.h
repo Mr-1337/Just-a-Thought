@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
-#include "ButtonBase.h"
+#include <UI/ButtonBase.h>
 class MenuButton :
-	public ButtonBase
+	public Jangine::ButtonBase
 {
 public:
-	MenuButton(SDL_Renderer* renderer, std::string path);
+	MenuButton(std::string path);
 	~MenuButton();
 	void draw() override;
 	void update() override;

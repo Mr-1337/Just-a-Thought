@@ -1,11 +1,12 @@
 #include "Editor.h"
+#include "PauseMenu.h"
 
 Editor::Editor() :
 	GameState()
 {
 	SDL_GetMouseState(&mouseX, &mouseY);
-	editorBar = new UIEditorBar(m_renderer);
-	m_world = new GameWorld("Assets/Graphics/level1.json", m_renderer, m_cam, 30, 40);
+	editorBar = new UIEditorBar();
+	m_world = new GameWorld("Assets/Graphics/level1.json", m_cam, 30, 40);
 	m_coords = new Jangine::Text(" ");
 	m_coords->load("Assets/Font/Halo3.ttf", 12);
 	m_cursorHighlight.w = size;
@@ -136,7 +137,7 @@ void Editor::eventHandler()
 		switch (m_event.type)
 		{
 		case SDL_QUIT:
-			request.state = STATE_QUIT;
+			m_quit = true;
 			break;
 		case SDL_KEYDOWN:
 			if (!m_event.key.repeat)
@@ -151,8 +152,7 @@ void Editor::eventHandler()
 						m_brushR--;
 					break;
 				case SDL_SCANCODE_ESCAPE:
-					request.popCurrent = false;
-					request.state = STATE_PAUSE;
+					m_nextState = std::make_shared<PauseMenu>(shared_from_this());
 					break;
 				case SDL_SCANCODE_RETURN:
 					std::cout << "Saving" << std::endl;

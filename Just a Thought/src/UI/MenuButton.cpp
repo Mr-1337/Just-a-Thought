@@ -1,8 +1,8 @@
 #include "MenuButton.h"
 
-MenuButton::MenuButton(SDL_Renderer* renderer, std::string path):
-	ButtonBase(renderer)
+MenuButton::MenuButton(std::string path)
 {
+	m_sprite = new Jangine::Sprite();
 	m_sprite->load(path);
 }
 

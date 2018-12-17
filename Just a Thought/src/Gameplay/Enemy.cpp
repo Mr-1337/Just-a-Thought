@@ -2,7 +2,7 @@
 
 
 Enemy::Enemy(SDL_Renderer* renderer, const Player& pin)
-	:leg(renderer), top(renderer), player(pin), renderer(renderer)
+	:leg(), top(), player(pin), renderer(renderer)
 {
 	leg.load("Assets/Graphics/heavy.png");
 	top.load("Assets/Graphics/heavytop.png");

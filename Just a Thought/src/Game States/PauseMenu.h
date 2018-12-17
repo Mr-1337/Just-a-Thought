@@ -1,25 +1,27 @@
 #pragma once
-#include "GameState.h"
-#include "../Util/Timer.h"
-#include "../UI/MenuButton.h"
-#include "../UI/Slider.h"
-#include "../Core/GameSettings.h"
+#include <Game States/GameState.h>
+#include <Util/Timer.h>
+#include <UI/Slider.h>
+#include <Core/GameSettings.h>
 #include <SDL_mixer.h>
+
+#include "../UI/MenuButton.h"
 class PauseMenu :
-	public GameState
+	public Jangine::GameState
 {
 public:
-	PauseMenu(SDL_Window* window);
-	void update() override;
+	PauseMenu(std::shared_ptr<GameState> prevState);
+	void update(float timestep) override;
 	void draw() override;
 	~PauseMenu();
 private:
-	Sprite* sprite;
-	Timer timer;
+	std::shared_ptr<GameState> prevState;
+	Jangine::Sprite* sprite;
+	Jangine::Timer timer;
 	Mix_Music* chunk;
 	MenuButton* quit;
 	MenuButton* menu;
-	Slider* volume;
+	Jangine::Slider* volume;
 	bool escape;
 };
 

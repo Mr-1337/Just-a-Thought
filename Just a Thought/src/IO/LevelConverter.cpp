@@ -16,12 +16,10 @@ LevelConverter::~LevelConverter()
 void LevelConverter::openFile(const std::string& filename)
 {
 	inputFile.open(filename);
-	inputFile >> jsonWorld;
 }
 
 void LevelConverter::loadBytes()
 {
-	data = jsonWorld["tiles"].get< std::vector <std::vector <char> >>();
 	outputFile.open("Assets/Graphics/level1.json");
 }
 
@@ -31,8 +29,6 @@ void LevelConverter::outputBytes()
 	std::cout << "outputting level bytes" << std::endl;
 
 	outputFile.open("Assets/Graphics/level1.json");
-
-	outputFile << jsonWorld.dump(4);
 
 }
 

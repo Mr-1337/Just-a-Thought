@@ -4,10 +4,8 @@
 #include <string>
 #include <filesystem>
 #include <vector>
-#include "json.h"
-#include "../Gameplay/GameWorld.h"
 
-using json = nlohmann::json;
+#include "../Gameplay/GameWorld.h"
 
 class LevelConverter
 {
@@ -23,7 +21,6 @@ private:
 	std::ifstream inputFile;
 	std::ofstream outputFile;
 
-	json jsonWorld;
 	GameWorld& world;
 
 	std::vector <std::vector <char> > &data;

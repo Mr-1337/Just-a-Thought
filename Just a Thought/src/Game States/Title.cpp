@@ -1,21 +1,20 @@
 #include "Title.h"
 
-Title::Title(SDL_Window* window):
-	GameState(window)
+Title::Title()
 {
 	std::cout << "Created Title" << std::endl;
 
-	menu = new Sprite(m_renderer);
+	menu = new Jangine::Sprite();
 
 	menu->load("Assets/Graphics/tempmenu.png");
 
 	int w, h;
-	GameSettings::getDimensions(&w, &h);
+	Jangine::GameSettings::getDimensions(&w, &h);
 	menu->setWidthHeight(w, h);
-	m_play = new MenuButton(m_renderer, "Assets/Graphics/play.png");
-	m_quit = new MenuButton(m_renderer, "Assets/Graphics/quit.png");
-	m_options = new MenuButton(m_renderer, "Assets/Graphics/options.png");
-	m_editor = new MenuButton(m_renderer, "Assets/Graphics/editor.png");
+	m_play = new MenuButton("Assets/Graphics/play.png");
+	m_quit = new MenuButton("Assets/Graphics/quit.png");
+	m_options = new MenuButton("Assets/Graphics/options.png");
+	m_editor = new MenuButton("Assets/Graphics/editor.png");
 	m_play->setX(375);
 	m_play->setY(400);
 	m_options->setX(375);
@@ -40,29 +39,12 @@ Title::~Title()
 	SDL_RenderPresent(m_renderer);
 }
 
-void Title::update()
+void Title::update(float timestep)
 {
 	m_play->update();
 	m_options->update();
 	m_quit->update();
 	m_editor->update();
-	if (m_play->click())
-	{
-		request.state = GameState::STATE_LEVEL1;
-	}
-	if (m_options->click())
-	{
-		request.state = GameState::STATE_OPTIONS;
-		request.popCurrent = false;
-	}
-	if (m_editor->click())
-	{
-		request.state = GameState::STATE_EDITOR;
-	}
-	if (m_quit->click())
-	{
-		request.state = GameState::STATE_QUIT;
-	}
 }
 
 void Title::draw()

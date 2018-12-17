@@ -2,21 +2,21 @@
 
 
 
-PauseMenu::PauseMenu(SDL_Window* window)
-	:GameState(window)
+PauseMenu::PauseMenu(std::shared_ptr<GameState> prevState)
+	: prevState(prevState)
 {
-	sprite = new Sprite(m_renderer);
+	sprite = new Jangine::Sprite();
 	sprite->load("Assets/Graphics/shrek.png");
-	quit = new MenuButton(m_renderer, "Assets/Graphics/quit.png");
-	menu = new MenuButton(m_renderer, "Assets/Graphics/play.png");
-	volume = new Slider(m_renderer);
+	quit = new MenuButton("Assets/Graphics/quit.png");
+	menu = new MenuButton("Assets/Graphics/play.png");
+	volume = new Jangine::Slider();
 	quit->setX(375);
 	quit->setY(400);
 	menu->setX(375);
 	menu->setY(500);
 	escape = true;
 	chunk = Mix_LoadMUS("Assets/Sound/mouth.ogg");
-	request.popCurrent = true;
+
 	Mix_PlayMusic(chunk, -1);
 	volume->setX(300);
 	volume->setY(200);
@@ -48,7 +48,7 @@ void PauseMenu::draw()
 }
 
 
-void PauseMenu::update()
+void PauseMenu::update(float timestep)
 {
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 	quit->update();
@@ -59,20 +59,11 @@ void PauseMenu::update()
 		if (!escape)
 		{
 			std::cout << "unpausing" << std::endl;
-			request.state = STATE_POP;
+			m_nextState = prevState;
 		}
 	}
 	else
 	{
 		escape = false;
-	}
-	if (quit->click())
-	{
-		request.state = STATE_QUIT;
-	}
-	if (menu->click())
-	{
-		request.popPrev = true;
-		request.state = STATE_TITLE;
 	}
 }

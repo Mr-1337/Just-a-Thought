@@ -1,18 +1,19 @@
 #pragma once
-#include "GameState.h"
-#include "../Core/GameSettings.h"
+#include <Game States/GameState.h>
+#include <Core/GameSettings.h>
+
 #include "../UI/MenuButton.h"
 class Title :
-	public GameState
+	public Jangine::GameState
 {
 public:
-	Title(SDL_Window* window);
+	Title();
 	~Title();
-	void update() override;
+	void update(float timestep) override;
 	void draw() override;
 
 private:
-	Sprite* menu;
+	Jangine::Sprite* menu;
 
 	MenuButton* m_play;
 	MenuButton* m_quit;

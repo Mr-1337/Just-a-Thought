@@ -1,23 +1,20 @@
 #include "UIEditorBar.h"
 
-
-
-UIEditorBar::UIEditorBar(SDL_Renderer* renderer)
-	:UIContainer(renderer)
+UIEditorBar::UIEditorBar()
 {
 
 	int w, h; 
-	GameSettings::getDimensions(&w, &h);
+	Jangine::GameSettings::getDimensions(&w, &h);
 	m_drawRect.w = w;
 	m_drawRect.h = h/10;
 	m_drawRect.x = 0;
 	m_drawRect.y = 0;
 
-	File = new UIEditorBarButton(renderer, "Assets/Graphics/save.png");
-	Pencil = new UIEditorBarButton(renderer, "Assets/Graphics/pencil.png");
-	Eraser = new UIEditorBarButton(renderer, "Assets/Graphics/eraser.png");
-	Hand = new UIEditorBarButton(renderer, "Assets/Graphics/hand.png");
-	Player = new UIEditorBarButton(renderer, "Assets/Graphics/guy.png");
+	File   = std::make_shared<UIEditorBarButton>("Assets/Graphics/save.png");
+	Pencil = std::make_shared<UIEditorBarButton>("Assets/Graphics/pencil.png");
+	Eraser = std::make_shared<UIEditorBarButton>("Assets/Graphics/eraser.png");
+	Hand   = std::make_shared<UIEditorBarButton>("Assets/Graphics/hand.png");
+	Player = std::make_shared<UIEditorBarButton>("Assets/Graphics/guy.png");
 
 	children.push_back(File);
 	children.push_back(Pencil);
@@ -36,11 +33,6 @@ UIEditorBar::UIEditorBar(SDL_Renderer* renderer)
 
 UIEditorBar::~UIEditorBar()
 {
-	delete File;
-	delete Pencil;
-	delete Eraser;
-	delete Hand;
-	delete Player;
 }
 
 
@@ -89,26 +81,6 @@ void UIEditorBar::update()
 	for (iter = children.begin(); iter < children.end(); iter++)
 	{
 		(*iter)->update();
-	}
-	if (File->click())
-	{
-		currentTool = TOOL_FILE;
-	}
-	if (Pencil->click())
-	{
-		currentTool = TOOL_PENCIL;
-	}
-	if (Eraser->click())
-	{
-		currentTool = TOOL_ERASER;
-	}
-	if (Hand->click())
-	{
-		currentTool = TOOL_HAND;
-	}
-	if (Player->click())
-	{
-		currentTool = TOOL_PLAYER;
 	}
 	switch (currentTool)
 	{

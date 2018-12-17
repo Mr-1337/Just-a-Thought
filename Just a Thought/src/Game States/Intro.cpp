@@ -1,10 +1,11 @@
 #include "Intro.h"
+#include "Title.h"
 
-Intro::Intro(SDL_Window* window):
-	alpha(255),timer(0),GameState(window)
+Intro::Intro():
+	alpha(255),timer(0)
 {
 	std::cout << "Created Intro" << std::endl;
-	splash = new Sprite(m_renderer);
+	splash = new Jangine::Sprite();
 	loadMedia();
 }
 
@@ -24,7 +25,7 @@ void Intro::loadMedia()
 	if (noise != NULL)
 		Mix_PlayChannel(0, noise, -1);
 	
-	GameSettings::getDimensions(&w, &h);
+	Jangine::GameSettings::getDimensions(&w, &h);
 	srand(SDL_GetTicks());
 	int choice = rand()%4;
 	switch (choice)
@@ -77,7 +78,7 @@ void Intro::update()
 	timer++;
 	if (timer > 600)
 	{
-		request.state = STATE_TITLE;
+		m_nextState = std::make_shared<Title>();
 	}
 
 }

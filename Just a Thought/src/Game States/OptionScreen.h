@@ -1,16 +1,16 @@
 #pragma once
-#include "GameState.h"
-#include "../UI/Slider.h"
+#include <Game States/GameState.h>
+#include <UI/Slider.h>
 class OptionScreen :
-	public GameState
+	public Jangine::GameState
 {
 public:
-	OptionScreen(SDL_Window* window);
+	OptionScreen();
 	void draw() override;
-	void update() override;
+	void update(float timestep) override;
 	~OptionScreen();
 private:
 	bool escape;
-	Slider* volume;
+	Jangine::Slider* volume;
 };
 

@@ -1,7 +1,8 @@
 #include "Level1.h"
+#include "PauseMenu.h"
 
 Level1::Level1(SDL_Window* window)
-	: GameState(window), gameWorld("Assets/Graphics/level1.json", m_renderer, m_cam, 30, 40)
+	: gameWorld("Assets/Graphics/level1.json", m_cam, 30, 40)
 {
 	escape = false;
 	gameWorld.load();
@@ -16,7 +17,7 @@ Level1::~Level1()
 	std::cout << "Destroyed Level 1" << std::endl;
 }
 
-void Level1::update()
+void Level1::update(float timestep)
 {
 	m_player->update();
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -25,15 +26,9 @@ void Level1::update()
 	{
 		if (!escape)
 		{
-			request.state = STATE_PAUSE;
-			request.popCurrent = false;	
+			m_nextState = std::make_shared<PauseMenu>(shared_from_this());
 			escape = true;
 		}
-	}
-	else if (request.state != STATE_QUIT)
-	{
-		escape = false;
-		request.state = STATE_NONE;
 	}
 }
 

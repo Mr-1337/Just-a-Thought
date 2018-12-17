@@ -1,20 +1,21 @@
 #pragma once
-#include "GameState.h"
-#include "../Gameplay/Player.h"
-#include "../IO/LevelConverter.h"
-#include "../Graphics/Text.h"
-#include "../Util/Timer.h"
-#include "../Gameplay/Enemy.h"
-#include "../Gameplay/GameWorld.h"
+#include <Game States/GameState.h>
+#include <Util/Timer.h>
+#include <Graphics/Text.h>
 #include <SDL_net.h>
 
+#include "../Gameplay/Player.h"
+#include "../IO/LevelConverter.h"
+#include "../Gameplay/Enemy.h"
+#include "../Gameplay/GameWorld.h"
+
 class Level1 :
-	public GameState
+	public Jangine::GameState
 {
 public:
 	Level1(SDL_Window* window);
 	~Level1();
-	void update() override;
+	void update(float timestep) override;
 	void draw() override;
 	void revealed() override;
 
@@ -23,7 +24,7 @@ private:
 	SDL_Rect rect;
 	Mix_Music* m_music;
 	bool escape;
-	Camera m_cam;
+	Jangine::Camera m_cam;
 	GameWorld gameWorld;
 };
 

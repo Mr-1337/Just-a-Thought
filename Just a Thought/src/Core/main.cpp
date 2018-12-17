@@ -10,7 +10,7 @@ I know that this probably won't be the magnum opus that I'd really like it to be
 #include <cstdlib>
 
 #include <Jangine.h>
-
+#include "../Game States/Title.h"
 
 /*
 ── █───▄▀█▀▀█▀▄▄───▐█──────▄▀█▀▀█▀▄▄
@@ -60,6 +60,7 @@ int main(int argc, char* args[])
 	
 	Jangine::GameSettings::setDimensions(800, 600);
 	Jangine::GameEngine* JaT = new Jangine::GameEngine("Just a Thought");
+	JaT->SetFirstState<Title>();
 	JaT->Run();
 
 	std::cout << "Program closed, hit enter to terminate";

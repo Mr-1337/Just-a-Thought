@@ -2,8 +2,7 @@
 
 
 
-UIEditorBarButton::UIEditorBarButton(SDL_Renderer* renderer, std::string path)
-	:ButtonBase(renderer)
+UIEditorBarButton::UIEditorBarButton(std::string path)
 {
 	m_sprite->load(path);
 }

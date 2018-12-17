@@ -2,11 +2,10 @@
 
 
 
-OptionScreen::OptionScreen(SDL_Window* window) :
-	GameState(window)
+OptionScreen::OptionScreen()
 {
 	std::cout << "Entering Options Menu " << std::endl;
-	volume = new Slider(m_renderer);
+	volume = new Jangine::Slider();
 	volume->setX(300);
 	volume->setY(500);
 	escape = false;
@@ -20,7 +19,7 @@ void OptionScreen::draw()
 	SDL_RenderPresent(m_renderer);
 }
 
-void OptionScreen::update()
+void OptionScreen::update(float timestep)
 {
 	volume->update();
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -28,8 +27,7 @@ void OptionScreen::update()
 	{
 		if (!escape)
 		{
-			std::cout << "leaving options" << std::endl;
-			request.state = STATE_POP;
+			std::cout << "TODO: LET USER LEAVE!!!" << std::endl;
 		}
 	}
 	else

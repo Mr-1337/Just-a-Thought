@@ -13,7 +13,7 @@ class Level1 :
 	public Jangine::GameState
 {
 public:
-	Level1(SDL_Window* window);
+	Level1();
 	~Level1();
 	void update(float timestep) override;
 	void draw() override;

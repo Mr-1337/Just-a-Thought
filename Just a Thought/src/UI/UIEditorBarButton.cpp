@@ -13,12 +13,10 @@ UIEditorBarButton::~UIEditorBarButton()
 	delete m_sprite;
 }
 
-
 void UIEditorBarButton::onHover()
 {
 	alpha = 50;
 }
-
 
 void UIEditorBarButton::draw()
 {

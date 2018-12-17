@@ -1,7 +1,7 @@
 ﻿/*
 Created February 3rd 2017 by Mr. 1337
 This is my first real project that I have put a lot of thought and work into, and hopefully I can make something special
-This is also a spiritual successor to "platformgame.swf", an earlier project. Some of you may probably remember that abomination, but it was my first attempt at something like this.
+This is also a spiritual successor to "platformgame.swf", an earlier project. Some of you may probably remember that abomination, you know who you are.
 I know that this probably won't be the magnum opus that I'd really like it to be, but one can dream right?
 */
 
@@ -62,6 +62,8 @@ int main(int argc, char* args[])
 	Jangine::GameEngine* JaT = new Jangine::GameEngine("Just a Thought");
 	JaT->SetFirstState<Title>();
 	JaT->Run();
+
+	delete JaT;
 
 	std::cout << "Program closed, hit enter to terminate";
 	std::cin.get();

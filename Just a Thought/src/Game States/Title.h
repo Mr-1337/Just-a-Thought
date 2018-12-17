@@ -15,9 +15,9 @@ public:
 private:
 	Jangine::Sprite* menu;
 
-	MenuButton* m_play;
-	MenuButton* m_quit;
-	MenuButton* m_options;
-	MenuButton* m_editor;
+	MenuButton* m_playButton;
+	MenuButton* m_quitButton;
+	MenuButton* m_optionsButton;
+	MenuButton* m_editorButton;
 };
 

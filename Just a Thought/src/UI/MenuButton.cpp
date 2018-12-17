@@ -21,12 +21,13 @@ void MenuButton::onHover()
 	m_sprite->setY(y-10);
 }
 
+
 void MenuButton::update()
 {
+
+	ButtonBase::update();
 	if (mouseInBounds())
-	{
 		onHover();
-	}
 	else
 	{
 		m_sprite->setWidthHeight(50, 30);
@@ -34,6 +35,7 @@ void MenuButton::update()
 		m_sprite->setY(y);
 	}
 }
+
 
 void MenuButton::draw()
 {

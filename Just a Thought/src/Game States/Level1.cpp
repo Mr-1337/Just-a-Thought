@@ -1,7 +1,7 @@
 #include "Level1.h"
 #include "PauseMenu.h"
 
-Level1::Level1(SDL_Window* window)
+Level1::Level1()
 	: gameWorld("Assets/Graphics/level1.json", m_cam, 30, 40)
 {
 	escape = false;

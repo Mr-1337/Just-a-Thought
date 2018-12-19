@@ -12,8 +12,8 @@ class Intro :
 public:
 	Intro();
 	~Intro();
-	void update();
-	void draw();
+	void update(float timestep) override;
+	void draw() override;
 private:
 	Jangine::Sprite* splash;
 	Mix_Chunk* noise;

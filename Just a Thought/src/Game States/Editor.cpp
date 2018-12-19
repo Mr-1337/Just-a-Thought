@@ -6,6 +6,7 @@ Editor::Editor() :
 {
 	SDL_GetMouseState(&mouseX, &mouseY);
 	editorBar = new UIEditorBar();
+	m_input.Attach(*editorBar);
 	m_world = new GameWorld("Assets/Graphics/level1.json", m_cam, 30, 40);
 	m_coords = new Jangine::Text(" ");
 	m_coords->load("Assets/Font/Halo3.ttf", 12);
@@ -166,6 +167,7 @@ void Editor::eventHandler()
 			m_dragMotion.second = -m_event.motion.yrel;
 			break;
 		}
+		m_input.PumpEvents(m_event);
 	}
 }
 

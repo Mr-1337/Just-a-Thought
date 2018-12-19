@@ -1,5 +1,6 @@
 #include "Title.h"
 #include "Level1.h"
+#include "Editor.h"
 
 Title::Title()
 {
@@ -18,7 +19,13 @@ Title::Title()
 	m_editorButton = new MenuButton("Assets/Graphics/editor.png");
 
 	m_playButton->onClick = [this]() { m_nextState = std::make_shared<Level1>(); };
+	m_editorButton->onClick = [this]() { m_nextState = std::make_shared<Editor>(); };
 	m_quitButton->onClick = [this]() { m_quit = true; };
+
+	m_input.Attach(*m_playButton);
+	m_input.Attach(*m_optionsButton);
+	m_input.Attach(*m_editorButton);
+	m_input.Attach(*m_quitButton);
 
 	m_playButton->setX(375);
 	m_playButton->setY(400);

@@ -11,6 +11,7 @@ I know that this probably won't be the magnum opus that I'd really like it to be
 
 #include <Jangine.h>
 #include "../Game States/Title.h"
+#include "../Game States/Intro.h"
 
 /*
 ── █───▄▀█▀▀█▀▄▄───▐█──────▄▀█▀▀█▀▄▄
@@ -58,6 +59,7 @@ int main(int argc, char* args[])
 {
 	std::cout << "Welcome to the console output for Just a Thought!" << std::endl << std::endl;
 	
+	Jangine::Logger::SetOutputStream(std::cout);
 	Jangine::GameSettings::setDimensions(800, 600);
 	Jangine::GameEngine* JaT = new Jangine::GameEngine("Just a Thought");
 	JaT->SetFirstState<Title>();

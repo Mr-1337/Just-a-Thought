@@ -65,7 +65,7 @@ void Intro::loadMedia()
 	Mix_FadeOutChannel(0, 8000);
 }
 
-void Intro::update()
+void Intro::update(float timestep)
 {
 	alpha -= 0.5;
 	if (alpha < 0)

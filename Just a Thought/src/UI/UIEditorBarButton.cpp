@@ -4,6 +4,7 @@
 
 UIEditorBarButton::UIEditorBarButton(std::string path)
 {
+	m_sprite = new Jangine::Sprite();
 	m_sprite->load(path);
 }
 
@@ -28,7 +29,7 @@ void UIEditorBarButton::draw()
 
 void UIEditorBarButton::update()
 {
-	if (mouseInBounds())
+	if (hover)
 	{
 		onHover();	
 	}

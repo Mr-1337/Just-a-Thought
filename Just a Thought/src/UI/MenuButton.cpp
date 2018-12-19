@@ -26,7 +26,7 @@ void MenuButton::update()
 {
 
 	ButtonBase::update();
-	if (mouseInBounds())
+	if (hover)
 		onHover();
 	else
 	{

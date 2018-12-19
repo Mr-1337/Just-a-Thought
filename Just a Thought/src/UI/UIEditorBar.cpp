@@ -16,6 +16,12 @@ UIEditorBar::UIEditorBar()
 	Hand   = std::make_shared<UIEditorBarButton>("Assets/Graphics/hand.png");
 	Player = std::make_shared<UIEditorBarButton>("Assets/Graphics/guy.png");
 
+	File->onClick = [this]() { currentTool = TOOL_FILE; };
+	Pencil->onClick = [this]() { currentTool = TOOL_PENCIL; };
+	Eraser->onClick = [this]() { currentTool = TOOL_ERASER; };
+	Hand->onClick = [this]() { currentTool = TOOL_HAND; };
+	Player->onClick = [this]() { currentTool = TOOL_PLAYER; };
+
 	children.push_back(File);
 	children.push_back(Pencil);
 	children.push_back(Eraser);
